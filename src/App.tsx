@@ -30,7 +30,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#030311', display: 'flex', flexDirection: 'column' }}>
-      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(3,3,17,0.85)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 40px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(3,3,17,0.85)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 40px', height: 66, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={() => setPage('home')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, padding: 0 }}>
           <div style={{ width: 34, height: 34, borderRadius: 10, background: 'linear-gradient(135deg, #7c3aed, #db2777)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, boxShadow: '0 4px 16px rgba(124,58,237,0.4)' }}>🎵</div>
           <span style={{ color: '#fff', fontWeight: 800, fontSize: 16, letterSpacing: '-0.5px' }}>Sing<span style={{ color: '#a855f7' }}>+</span></span>
@@ -38,7 +38,7 @@ export default function App() {
         <div className="dnav" style={{ display: 'flex', gap: 4 }}>
           {NAV.map(item => (
             <button key={item.p} onClick={() => setPage(item.p)}
-              style={{ background: page === item.p ? 'rgba(124,58,237,0.18)' : 'transparent', border: 'none', borderRadius: 8, padding: '7px 16px', color: page === item.p ? '#c084fc' : '#6b7280', fontSize: 13.5, fontWeight: page === item.p ? 600 : 500, cursor: 'pointer' }}>
+              style={{ background: page === item.p ? 'rgba(124,58,237,0.18)' : 'transparent', border: 'none', borderRadius: 8, padding: '8px 18px', color: page === item.p ? '#c084fc' : '#6b7280', fontSize: 14.5, fontWeight: page === item.p ? 600 : 500, cursor: 'pointer' }}>
               {item.label}
             </button>
           ))}
@@ -57,7 +57,7 @@ export default function App() {
         <div style={{ background: 'rgba(3,3,17,0.97)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '12px 24px 20px' }}>
           {NAV.map(item => (
             <button key={item.p} onClick={() => { setPage(item.p); setMobileOpen(false); }}
-              style={{ display: 'block', width: '100%', background: 'transparent', border: 'none', borderRadius: 8, padding: '10px 12px', color: page === item.p ? '#c084fc' : '#6b7280', fontSize: 14, cursor: 'pointer', textAlign: 'left', fontWeight: page === item.p ? 600 : 400 }}>
+              style={{ display: 'block', width: '100%', background: 'transparent', border: 'none', borderRadius: 8, padding: '10px 12px', color: page === item.p ? '#c084fc' : '#6b7280', fontSize: 15, cursor: 'pointer', textAlign: 'left', fontWeight: page === item.p ? 600 : 400 }}>
               {item.label}
             </button>
           ))}
