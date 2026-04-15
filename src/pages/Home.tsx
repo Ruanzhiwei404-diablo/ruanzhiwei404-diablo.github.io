@@ -23,7 +23,7 @@ export default function Home({ onNav }: { onNav: (p: Page) => void }) {
     { l: '92%', t: '75%', c: '#a855f7', s: 2 }, { l: '65%', t: '18%', c: '#ec4899', s: 3 },
   ];
 
-  const bars = Array.from({ length: 44 }, (_, i) => 18 + Math.abs(Math.sin(i * 0.6) * 20) + Math.abs(Math.cos(i * 0.3) * 12));
+  const bars = Array.from({ length: 44 }, (_, i) => 24 + Math.abs(Math.sin(i * 0.6) * 26) + Math.abs(Math.cos(i * 0.3) * 16));
 
   return (
     <div style={{ overflowX: 'hidden' }}>
@@ -38,28 +38,28 @@ export default function Home({ onNav }: { onNav: (p: Page) => void }) {
 
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(124,58,237,0.12)', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 20, padding: '6px 16px', marginBottom: 36, animation: 'fSU 0.6s ease-out both' }}>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#a855f7', animation: 'pD 2s ease-in-out infinite' }} />
-          <span style={{ fontSize: 12, color: '#c084fc', fontWeight: 600, letterSpacing: '0.5px' }}>AI 声音技术 · 全新体验</span>
+          <span style={{ fontSize: 13, color: '#c084fc', fontWeight: 600, letterSpacing: '0.5px' }}>AI 声音技术 · 全新体验</span>
         </div>
 
-        <h1 style={{ fontSize: 'clamp(38px, 7vw, 80px)', fontWeight: 900, color: '#fff', lineHeight: 1.08, marginBottom: 8, letterSpacing: '-1.5px', maxWidth: 900, animation: 'fSU 0.6s ease-out 0.1s both', textShadow: '0 0 80px rgba(124,58,237,0.35)' }}>打造独有</h1>
-        <h1 style={{ fontSize: 'clamp(38px, 7vw, 80px)', fontWeight: 900, lineHeight: 1.08, marginBottom: 20, letterSpacing: '-1.5px', animation: 'fSU 0.6s ease-out 0.15s both', background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f97316 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>标志性声音</h1>
+        <h1 style={{ fontSize: 'clamp(54px, 9.5vw, 108px)', fontWeight: 900, color: '#fff', lineHeight: 1.06, marginBottom: 10, letterSpacing: '-2px', maxWidth: 960, animation: 'fSU 0.6s ease-out 0.1s both', textShadow: '0 0 100px rgba(124,58,237,0.4)' }}>打造独有</h1>
+        <h1 style={{ fontSize: 'clamp(54px, 9.5vw, 108px)', fontWeight: 900, lineHeight: 1.06, marginBottom: 24, letterSpacing: '-2px', animation: 'fSU 0.6s ease-out 0.15s both', background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f97316 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>标志性声音</h1>
 
-        <p style={{ fontSize: 'clamp(14px, 2vw, 17px)', color: '#9ca3af', maxWidth: 520, lineHeight: 1.9, marginBottom: 44, animation: 'fSU 0.6s ease-out 0.2s both' }}>
+        <p style={{ fontSize: 'clamp(15px, 2.2vw, 19px)', color: '#9ca3af', maxWidth: 560, lineHeight: 1.85, marginBottom: 52, animation: 'fSU 0.6s ease-out 0.2s both' }}>
           用 AI 解锁声音的无限可能——克隆音色、智能编曲、AI 歌声合成，把普通音频变成专业级作品
         </p>
 
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 64, animation: 'fSU 0.6s ease-out 0.3s both' }}>
-          <button onClick={() => onNav('chat')} style={{ background: 'linear-gradient(135deg, #7c3aed, #db2777)', border: 'none', borderRadius: 14, padding: '15px 36px', color: '#fff', fontSize: 15, fontWeight: 700, cursor: 'pointer', boxShadow: '0 8px 40px rgba(124,58,237,0.45)', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button onClick={() => onNav('chat')} style={{ background: 'linear-gradient(135deg, #7c3aed, #db2777)', border: 'none', borderRadius: 16, padding: '18px 44px', color: '#fff', fontSize: 16, fontWeight: 700, cursor: 'pointer', boxShadow: '0 10px 48px rgba(124,58,237,0.5)', display: 'flex', alignItems: 'center', gap: 8 }}>
             <span>🎤</span> 立即体验
           </button>
-          <button onClick={() => onNav('resources')} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, padding: '15px 36px', color: '#e2e8f0', fontSize: 15, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button onClick={() => onNav('resources')} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: '18px 44px', color: '#e2e8f0', fontSize: 16, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
             <span>🧭</span> 资源导航
           </button>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 3, height: 56, animation: 'fSU 0.6s ease-out 0.4s both' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 3, height: 76, animation: 'fSU 0.6s ease-out 0.4s both' }}>
           {bars.map((h, i) => (
-            <div key={i} style={{ width: 3, borderRadius: 3, background: 'linear-gradient(to top, #7c3aed, #ec4899)', height: Math.min(h, 55) + 'px', animation: 'wA ' + (0.8 + (i % 4) * 0.2) + 's ease-in-out infinite alternate', animationDelay: (i * 0.04) + 's', opacity: 0.45 + (h / 55) * 0.55 }} />
+            <div key={i} style={{ width: 3.5, borderRadius: 3, background: 'linear-gradient(to top, #7c3aed, #ec4899)', height: Math.min(h, 75) + 'px', animation: 'wA ' + (0.8 + (i % 4) * 0.2) + 's ease-in-out infinite alternate', animationDelay: (i * 0.04) + 's', opacity: 0.5 + (h / 80) * 0.5 }} />
           ))}
         </div>
 
