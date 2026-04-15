@@ -92,7 +92,7 @@ export default function ChatPage({ apiKey }: { apiKey: string }) {
         {msgs.length === 0 ? (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '40px 0' }}>
             <div style={{ fontSize: 56, marginBottom: 16 }}>🎵</div>
-            <div style={{ fontSize: 20, fontWeight: 700, color: '#f1f5f9', marginBottom: 8 }}>Sing+ AI 对话助手</div>
+            <div style={{ fontSize: 20, fontWeight: 700, color: '#f1f5f9', marginBottom: 8 }}>because AI 对话助手</div>
             <div style={{ fontSize: 13, color: '#6b7280', lineHeight: 2 }}>
               基于 GPT-4o mini，支持声音创作、编曲、AI 技术咨询等<br />
               <span style={{ fontSize: 11.5, color: '#4b5563' }}>按 Enter 发送，Shift+Enter 换行</span>
