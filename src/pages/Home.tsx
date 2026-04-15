@@ -32,6 +32,22 @@ export default function Home({ onNav }: { onNav: (p: Page) => void }) {
         <div style={{ position: 'absolute', bottom: '15%', left: '5%', width: 500, height: 500, background: 'radial-gradient(circle, rgba(168,85,247,0.1) 0%, transparent 60%)', pointerEvents: 'none', filter: 'blur(70px)' }} />
         <div style={{ position: 'absolute', top: '25%', right: '5%', width: 400, height: 400, background: 'radial-gradient(circle, rgba(236,72,153,0.07) 0%, transparent 60%)', pointerEvents: 'none', filter: 'blur(60px)' }} />
 
+        {/* because 艺术字 */}
+        <div style={{
+          fontFamily: '"Righteous", cursive',
+          fontSize: 'clamp(72px, 14vw, 160px)',
+          fontWeight: 400,
+          letterSpacing: '6px',
+          background: 'linear-gradient(135deg, #ffffff 0%, #e0c3fc 35%, #c084fc 60%, #f0abfc 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+          filter: 'drop-shadow(0 0 40px rgba(168,85,247,0.5))',
+          marginBottom: 0,
+          lineHeight: 1,
+          animation: 'fSU 0.5s ease-out both',
+        }}>because</div>
+
         {pts.map((p, i) => (
           <div key={i} style={{ position: 'absolute', borderRadius: '50%', background: p.c, width: p.s, height: p.s, left: p.l, top: p.t, opacity: 0.18, animation: 'f' + (i % 3) + ' ' + (3 + (i % 3)) + 's ease-in-out infinite', animationDelay: (i * 0.4) + 's' }} />
         ))}
