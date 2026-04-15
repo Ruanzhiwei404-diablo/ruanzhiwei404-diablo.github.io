@@ -38,7 +38,7 @@ export default function App() {
         <div className="dnav" style={{ display: 'flex', gap: 4 }}>
           {NAV.map(item => (
             <button key={item.p} onClick={() => setPage(item.p)}
-              style={{ background: page === item.p ? 'rgba(124,58,237,0.18)' : 'transparent', border: 'none', borderRadius: 8, padding: '8px 18px', color: page === item.p ? '#c084fc' : '#6b7280', fontSize: 14.5, fontWeight: page === item.p ? 600 : 500, cursor: 'pointer' }}>
+              style={{ background: page === item.p ? 'rgba(124,58,237,0.18)' : 'transparent', border: 'none', borderRadius: 8, padding: '8px 18px', color: page === item.p ? '#c084fc' : '#6b7280', fontSize: 16, fontWeight: page === item.p ? 700 : 600, cursor: 'pointer' }}>
               {item.label}
             </button>
           ))}
