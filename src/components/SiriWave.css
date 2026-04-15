@@ -1,0 +1,83 @@
+/* === Siri 风格声波动画 === */
+
+/* 球体外发光 */
+.siri-outer-glow-css {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 180, 140, 0.2) 0%,
+    rgba(200, 120, 200, 0.1) 35%,
+    rgba(100, 160, 255, 0.05) 60%,
+    transparent 80%
+  );
+  filter: blur(12px);
+  animation: siriGlowPulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes siriGlowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+}
+
+/* SVG 球体容器 */
+.siri-orb-wrap {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.siri-svg {
+  filter: drop-shadow(0 0 8px rgba(160, 120, 255, 0.15));
+  animation: svgBreathe 2s ease-in-out infinite;
+}
+
+@keyframes svgBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* 球体边框呼吸 */
+.siri-border {
+  animation: borderBreathe 2s ease-in-out infinite;
+}
+
+@keyframes borderBreathe {
+  0%, 100% { stroke-opacity: 0.1; }
+  50% { stroke-opacity: 0.18; }
+}
+
+/* 圆形扩散光环 */
+.siri-glow-ring {
+  border: 1.5px solid rgba(200, 150, 255, 0.35);
+  border-radius: 50%;
+  filter: blur(2px);
+  animation: ringExpand 2.5s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes ringExpand {
+  0% { opacity: 0; transform: inherit scale(0.85); }
+  30% { opacity: 0.5; }
+  100% { opacity: 0; transform: inherit scale(1.3); }
+}
+
+/* 波形条 */
+.siri-wave-bar {
+  background: linear-gradient(to top, rgba(120, 180, 255, 0.6), rgba(200, 130, 255, 0.8));
+  box-shadow: 0 0 5px rgba(150, 120, 255, 0.3);
+  animation: siriWaveBar 1.2s ease-in-out infinite;
+}
+
+@keyframes siriWaveBar {
+  0%, 100% { height: 14px; opacity: 0.3; }
+  50% { height: 28px; opacity: 0.9; }
+}

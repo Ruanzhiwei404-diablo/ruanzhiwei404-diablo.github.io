@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff5f7"/>
+      <stop offset="100%" stop-color="#fff0f3"/>
+    </linearGradient>
+    <linearGradient id="petal1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f9a8d4" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="petal2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbcfe8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#f472b6" stop-opacity="0.65"/>
+    </linearGradient>
+    <linearGradient id="center" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdf2f8"/>
+      <stop offset="40%" stop-color="#f9a8d4"/>
+      <stop offset="100%" stop-color="#db2777"/>
+    </linearGradient>
+    <radialGradient id="pearl" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="30%" stop-color="#fbcfe8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0.5"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#ec4899" flood-opacity="0.2"/>
+    </filter>
+    <filter id="innerGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background squircle -->
+  <rect x="4" y="4" width="72" height="72" rx="18" ry="18" fill="url(#bg)"/>
+
+  <!-- Outer petal group - 4 petals -->
+  <g filter="url(#shadow)">
+    <ellipse cx="40" cy="20" rx="7.5" ry="13" fill="url(#petal1)" opacity="0.75" transform="rotate(0 40 40)"/>
+    <ellipse cx="40" cy="20" rx="7.5" ry="13" fill="url(#petal1)" opacity="0.75" transform="rotate(90 40 40)"/>
+    <ellipse cx="40" cy="20" rx="7.5" ry="13" fill="url(#petal1)" opacity="0.75" transform="rotate(180 40 40)"/>
+    <ellipse cx="40" cy="20" rx="7.5" ry="13" fill="url(#petal1)" opacity="0.75" transform="rotate(270 40 40)"/>
+  </g>
+
+  <!-- Inner petal group - 4 petals (rotated 45deg) -->
+  <g opacity="0.88">
+    <ellipse cx="40" cy="22" rx="6.5" ry="11" fill="url(#petal2)" transform="rotate(45 40 40)"/>
+    <ellipse cx="40" cy="22" rx="6.5" ry="11" fill="url(#petal2)" transform="rotate(135 40 40)"/>
+    <ellipse cx="40" cy="22" rx="6.5" ry="11" fill="url(#petal2)" transform="rotate(225 40 40)"/>
+    <ellipse cx="40" cy="22" rx="6.5" ry="11" fill="url(#petal2)" transform="rotate(315 40 40)"/>
+  </g>
+
+  <!-- Center pearl -->
+  <circle cx="40" cy="40" r="9" fill="url(#center)" opacity="0.9"/>
+  <circle cx="40" cy="40" r="9" fill="url(#pearl)" opacity="0.6"/>
+  <!-- Pearl highlight -->
+  <ellipse cx="36.5" cy="36.5" rx="3" ry="2.2" fill="white" opacity="0.7" transform="rotate(-30 36.5 36.5)"/>
+  <circle cx="38" cy="38" r="1" fill="white" opacity="0.5"/>
+</svg>
