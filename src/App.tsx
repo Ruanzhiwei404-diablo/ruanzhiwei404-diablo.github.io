@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Logo from './logo';
 import Home from './pages/Home';
 import ChatPage from './pages/ChatPage';
 import ResourcesPage from './pages/ResourcesPage';
@@ -33,7 +32,7 @@ export default function App() {
     <div style={{ minHeight: '100vh', background: '#030311', display: 'flex', flexDirection: 'column' }}>
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(3,3,17,0.85)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 40px', height: 66, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={() => setPage('home')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, padding: 0 }}>
-          <img src="/logo.png" alt="because" style={{ width: 40, height: 40, borderRadius: 10, display: 'block', flexShrink: 0, boxShadow: '0 4px 16px rgba(219,39,119,0.3)' }} />
+          <img src="/icon-v2.png" alt="because" style={{ width: 40, height: 40, borderRadius: 10, display: 'block', flexShrink: 0, boxShadow: '0 4px 16px rgba(219,39,119,0.3)' }} />
           <span style={{ color: '#fff', fontWeight: 800, fontSize: 17, letterSpacing: '-0.3px' }}>because</span>
         </button>
         <div className="dnav" style={{ display: 'flex', gap: 4 }}>
@@ -119,7 +118,7 @@ export default function App() {
         {page === 'about' && (
           <div style={{ maxWidth: 640, margin: '0 auto', padding: '32px 24px', width: '100%' }}>
             <div style={{ textAlign: 'center', marginBottom: 36 }}>
-              <img src="/logo.png" alt="because" style={{ width: 88, height: 88, borderRadius: 22, display: 'block', margin: '0 auto 16px', boxShadow: '0 8px 40px rgba(219,39,119,0.35)' }} />
+              <img src="/icon-v2.png" alt="because" style={{ width: 88, height: 88, borderRadius: 22, display: 'block', margin: '0 auto 16px', boxShadow: '0 8px 40px rgba(219,39,119,0.35)' }} />
               <h1 style={{ fontSize: 22, fontWeight: 800, color: '#f1f5f9', marginBottom: 6 }}>because</h1>
               <p style={{ fontSize: 13, color: '#6b7280' }}>AI 声音技术平台 · 开源免费 · 持续更新</p>
             </div>
