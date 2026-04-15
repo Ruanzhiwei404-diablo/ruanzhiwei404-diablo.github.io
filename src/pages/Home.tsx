@@ -114,7 +114,7 @@ export default function Home({ onNav }: { onNav: (p: Page) => void }) {
       </section>
 
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '24px 40px', textAlign: 'center' }}>
-        <div style={{ fontSize: 12, color: '#374151' }}>© 2026 Sing+ · 打造独有标志性声音 · 技术支持 AIHub</div>
+        <div style={{ fontSize: 12, color: '#374151' }}>© 2026 because · 打造独有标志性声音</div>
       </footer>
     </div>
   );
