@@ -17,6 +17,7 @@ export default function App() {
   const [page, setPage] = useState<Page>('home');
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('openai_api_key') || '');
   const [baseUrl, setBaseUrl] = useState(() => localStorage.getItem('openai_base_url') || 'https://api.openai.com/v1');
+  const [model, setModel] = useState(() => localStorage.getItem('openai_model') || 'Qwen/Qwen2.5-7B-Instruct');
   const [showSettings, setShowSettings] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -72,37 +73,53 @@ export default function App() {
               <h2 style={{ color: '#fff', fontSize: 17, fontWeight: 700 }}>⚙️ API 配置</h2>
               <button onClick={() => setShowSettings(false)} style={{ background: 'none', border: 'none', color: '#6b7280', fontSize: 20, cursor: 'pointer' }}>✕</button>
             </div>
-            <p style={{ color: '#9ca3af', fontSize: 13, lineHeight: 1.7, marginBottom: 8 }}>
-              AI 对话需要 <strong style={{ color: '#a855f7' }}>OpenAI API Key</strong> 才能正常回答，支持 GPT-4o / GPT-4o mini 等模型。Key 仅存储在本地浏览器。
+            <p style={{ color: '#9ca3af', fontSize: 13, lineHeight: 1.7, marginBottom: 14 }}>
+              支持 <strong style={{ color: '#a855f7' }}>OpenAI 格式</strong>的任意 API 接口（OpenAI / 硅基流动 / Groq 等）。Key 仅存储在本地浏览器。
             </p>
-            <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="API Key"
-              style={{ width: '100%', padding: '10px 14px', background: '#1a1a30', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: '#e5e7eb', fontSize: 13, outline: 'none', marginBottom: 10, fontFamily: 'monospace' }} />
-            <input type="text" value={baseUrl} onChange={e => setBaseUrl(e.target.value)} placeholder="https://api.openai.com/v1"
-              style={{ width: '100%', padding: '10px 14px', background: '#1a1a30', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: '#e5e7eb', fontSize: 12.5, outline: 'none', marginBottom: 12, fontFamily: 'monospace' }} />
-            <div style={{ fontSize: 11.5, color: '#6b7280', marginBottom: 12, lineHeight: 1.6 }}>
-              <div style={{ marginBottom: 4 }}>💡 接口地址示例：</div>
-              <div>• OpenAI：<code style="color: '#a855f7'">https://api.openai.com/v1</code></div>
-              <div>• 硅基流动：<code style="color: '#a855f7'">https://api.siliconflow.cn/v1</code></div>
+
+            <div style={{ marginBottom: 10 }}>
+              <div style={{ fontSize: 11.5, color: '#6b7280', marginBottom: 4 }}>接口地址</div>
+              <input type="text" value={baseUrl} onChange={e => setBaseUrl(e.target.value)} placeholder="https://api.openai.com/v1"
+                style={{ width: '100%', padding: '9px 12px', background: '#1a1a30', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: '#e5e7eb', fontSize: 12.5, outline: 'none', fontFamily: 'monospace' }} />
             </div>
+
+            <div style={{ marginBottom: 10 }}>
+              <div style={{ fontSize: 11.5, color: '#6b7280', marginBottom: 4 }}>API Key</div>
+              <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="sk-xxxxxxxx"
+                style={{ width: '100%', padding: '9px 12px', background: '#1a1a30', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: '#e5e7eb', fontSize: 12.5, outline: 'none', fontFamily: 'monospace' }} />
+            </div>
+
+            <div style={{ marginBottom: 14 }}>
+              <div style={{ fontSize: 11.5, color: '#6b7280', marginBottom: 4 }}>模型名称</div>
+              <input type="text" value={model} onChange={e => setModel(e.target.value)} placeholder="Qwen/Qwen2.5-7B-Instruct"
+                style={{ width: '100%', padding: '9px 12px', background: '#1a1a30', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: '#e5e7eb', fontSize: 12.5, outline: 'none', fontFamily: 'monospace' }} />
+            </div>
+
+            <div style={{ fontSize: 11.5, color: '#6b7280', marginBottom: 14, lineHeight: 1.8, background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: '8px 12px' }}>
+              <div>💡 <strong style={{ color: '#e2e8f0' }}>硅基流动</strong> → baseUrl: <code style="color: '#a855f7'">https://api.siliconflow.cn/v1</code></div>
+              <div>💡 <strong style={{ color: '#e2e8f0' }}>OpenAI</strong> → baseUrl: <code style="color: '#a855f7'">https://api.openai.com/v1</code></div>
+            </div>
+
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={() => { localStorage.setItem('openai_api_key', apiKey); localStorage.setItem('openai_base_url', baseUrl); setShowSettings(false); }}
+              <button onClick={() => {
+                localStorage.setItem('openai_api_key', apiKey);
+                localStorage.setItem('openai_base_url', baseUrl);
+                localStorage.setItem('openai_model', model);
+                setShowSettings(false);
+              }}
                 disabled={!apiKey}
                 style={{ flex: 1, padding: '9px 0', background: 'linear-gradient(135deg, #7c3aed, #db2777)', border: 'none', borderRadius: 10, color: '#fff', fontSize: 13, fontWeight: 600, cursor: apiKey ? 'pointer' : 'not-allowed', opacity: apiKey ? 1 : 0.5 }}>
                 保存并使用
               </button>
               <button onClick={() => setShowSettings(false)} style={{ padding: '9px 16px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: '#9ca3af', fontSize: 13, cursor: 'pointer' }}>取消</button>
             </div>
-            <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer"
-              style={{ display: 'block', textAlign: 'center', color: '#a855f7', fontSize: 12, marginTop: 14, textDecoration: 'none' }}>
-              → 去 OpenAI 官网获取 API Key →
-            </a>
           </div>
         </div>
       )}
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         {page === 'home' && <Home onNav={setPage} />}
-        {page === 'chat' && <ChatPage apiKey={apiKey} baseUrl={baseUrl} />}
+        {page === 'chat' && <ChatPage apiKey={apiKey} baseUrl={baseUrl} model={model} />}
         {page === 'resources' && <ResourcesPage />}
         {page === 'tools' && (
           <div style={{ maxWidth: 800, margin: '0 auto', padding: '32px 24px', width: '100%' }}>
@@ -145,7 +162,7 @@ export default function App() {
                 <div style={{ color: '#e2e8f0', fontWeight: 600, marginBottom: 4 }}>🛠️ 技术栈</div>
                 <ul style={{ paddingLeft: 20 }}>
                   <li>前端：React + TypeScript + Vite</li>
-                  <li>AI：OpenAI GPT-4o mini API</li>
+                  <li>AI：OpenAI 兼容 API</li>
                   <li>部署：GitHub Pages</li>
                   <li>资源库：34 个 AI 工具收录</li>
                 </ul>

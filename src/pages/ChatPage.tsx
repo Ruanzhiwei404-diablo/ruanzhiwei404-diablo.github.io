@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import type { Message } from '../data/resources';
 import { generateId, formatTime } from '../data/resources';
 
-export default function ChatPage({ apiKey, baseUrl }: { apiKey: string; baseUrl: string }) {
+export default function ChatPage({ apiKey, baseUrl, model }: { apiKey: string; baseUrl: string; model: string }) {
   const [msgs, setMsgs] = useState<Message[]>(() => { try { return JSON.parse(localStorage.getItem('c_msgs') || '[]'); } catch { return []; } });
   const [inp, setInp] = useState('');
   const [load, setLoad] = useState(false);
@@ -30,7 +30,7 @@ export default function ChatPage({ apiKey, baseUrl }: { apiKey: string; baseUrl:
       const res = await fetch(baseUrl + '/chat/completions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-        body: JSON.stringify({ model: 'Qwen/Qwen2.5-7B-Instruct', messages: [...msgs.map(m => ({ role: m.role, content: m.content })), { role: 'user', content: txt }], stream: true }),
+        body: JSON.stringify({ model: model, messages: [...msgs.map(m => ({ role: m.role, content: m.content })), { role: 'user', content: txt }], stream: true }),
       });
       if (!res.ok) throw new Error('API 请求失败 (' + res.status + ')');
       const reader = res.body?.getReader();
@@ -55,7 +55,7 @@ export default function ChatPage({ apiKey, baseUrl }: { apiKey: string; baseUrl:
       const msg = err instanceof Error ? err.message : String(err);
       setMsgs(prev => [...prev, { id: generateId(), role: 'assistant', time: formatTime(), content: '❌ ' + msg }]);
     } finally { setLoad(false); }
-  }, [inp, load, apiKey, baseUrl, msgs]);
+  }, [inp, load, apiKey, baseUrl, model, msgs]);
 
   const clear = () => { setMsgs([]); localStorage.removeItem('c_msgs'); };
 
