@@ -96,8 +96,8 @@ export default function App() {
             </div>
 
             <div style={{ fontSize: 11.5, color: '#6b7280', marginBottom: 14, lineHeight: 1.8, background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: '8px 12px' }}>
-              <div>💡 <strong style={{ color: '#e2e8f0' }}>硅基流动</strong> → baseUrl: <code style="color: '#a855f7'">https://api.siliconflow.cn/v1</code></div>
-              <div>💡 <strong style={{ color: '#e2e8f0' }}>OpenAI</strong> → baseUrl: <code style="color: '#a855f7'">https://api.openai.com/v1</code></div>
+              <div>💡 <strong style={{ color: '#e2e8f0' }}>硅基流动</strong> → baseUrl: <code style={{ color: '#a855f7' }}>https://api.siliconflow.cn/v1</code></div>
+              <div>💡 <strong style={{ color: '#e2e8f0' }}>OpenAI</strong> → baseUrl: <code style={{ color: '#a855f7' }}>https://api.openai.com/v1</code></div>
             </div>
 
             <div style={{ display: 'flex', gap: 10 }}>
