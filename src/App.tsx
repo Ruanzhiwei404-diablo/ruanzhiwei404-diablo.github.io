@@ -1,5 +1,5 @@
-import Logo from './logo';
 import { useState } from 'react';
+import Logo from './logo';
 import Home from './pages/Home';
 import ChatPage from './pages/ChatPage';
 import ResourcesPage from './pages/ResourcesPage';
@@ -33,7 +33,7 @@ export default function App() {
     <div style={{ minHeight: '100vh', background: '#030311', display: 'flex', flexDirection: 'column' }}>
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(3,3,17,0.85)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 40px', height: 66, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={() => setPage('home')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, padding: 0 }}>
-          <Logo />
+          <img src="/logo.png" alt="because" style={{ width: 40, height: 40, borderRadius: 10, display: 'block', flexShrink: 0, boxShadow: '0 4px 16px rgba(219,39,119,0.3)' }} />
           <span style={{ color: '#fff', fontWeight: 800, fontSize: 17, letterSpacing: '-0.3px' }}>because</span>
         </button>
         <div className="dnav" style={{ display: 'flex', gap: 4 }}>
@@ -119,48 +119,7 @@ export default function App() {
         {page === 'about' && (
           <div style={{ maxWidth: 640, margin: '0 auto', padding: '32px 24px', width: '100%' }}>
             <div style={{ textAlign: 'center', marginBottom: 36 }}>
-              <div style={{ width: 80, height: 80, borderRadius: 20, margin: '0 auto 16px', boxShadow: '0 8px 32px rgba(219,39,119,0.25)' }}>
-                <div style={{ width: 80, height: 80 }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-                    <defs>
-                      <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#fff5f7"/>
-                        <stop offset="100%" stopColor="#fff0f3"/>
-                      </linearGradient>
-                      <linearGradient id="p1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#f9a8d4" stopOpacity="0.85"/>
-                        <stop offset="100%" stopColor="#ec4899" stopOpacity="0.6"/>
-                      </linearGradient>
-                      <linearGradient id="p2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#fbcfe8" stopOpacity="0.9"/>
-                        <stop offset="100%" stopColor="#f472b6" stopOpacity="0.65"/>
-                      </linearGradient>
-                      <linearGradient id="c2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#fdf2f8"/>
-                        <stop offset="40%" stopColor="#f9a8d4"/>
-                        <stop offset="100%" stopColor="#db2777"/>
-                      </linearGradient>
-                      <filter id="sw2"><feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#ec4899" floodOpacity="0.22"/></filter>
-                    </defs>
-                    <rect x="4" y="4" width="72" height="72" rx="18" fill="url(#bg2)"/>
-                    <g filter="url(#sw2)">
-                      <ellipse cx="40" cy="20" rx="7.5" ry="13" fill="url(#p1)" opacity="0.75" transform="rotate(0 40 40)"/>
-                      <ellipse cx="40" cy="20" rx="7.5" ry="13" fill="url(#p1)" opacity="0.75" transform="rotate(90 40 40)"/>
-                      <ellipse cx="40" cy="20" rx="7.5" ry="13" fill="url(#p1)" opacity="0.75" transform="rotate(180 40 40)"/>
-                      <ellipse cx="40" cy="20" rx="7.5" ry="13" fill="url(#p1)" opacity="0.75" transform="rotate(270 40 40)"/>
-                    </g>
-                    <g opacity="0.88">
-                      <ellipse cx="40" cy="22" rx="6.5" ry="11" fill="url(#p2)" transform="rotate(45 40 40)"/>
-                      <ellipse cx="40" cy="22" rx="6.5" ry="11" fill="url(#p2)" transform="rotate(135 40 40)"/>
-                      <ellipse cx="40" cy="22" rx="6.5" ry="11" fill="url(#p2)" transform="rotate(225 40 40)"/>
-                      <ellipse cx="40" cy="22" rx="6.5" ry="11" fill="url(#p2)" transform="rotate(315 40 40)"/>
-                    </g>
-                    <circle cx="40" cy="40" r="9" fill="url(#c2)" opacity="0.9"/>
-                    <ellipse cx="36.5" cy="36.5" rx="3" ry="2.2" fill="white" opacity="0.7" transform="rotate(-30 36.5 36.5)"/>
-                    <circle cx="38" cy="38" r="1" fill="white" opacity="0.5"/>
-                  </svg>
-                </div>
-              </div>
+              <img src="/logo.png" alt="because" style={{ width: 88, height: 88, borderRadius: 22, display: 'block', margin: '0 auto 16px', boxShadow: '0 8px 40px rgba(219,39,119,0.35)' }} />
               <h1 style={{ fontSize: 22, fontWeight: 800, color: '#f1f5f9', marginBottom: 6 }}>because</h1>
               <p style={{ fontSize: 13, color: '#6b7280' }}>AI 声音技术平台 · 开源免费 · 持续更新</p>
             </div>
