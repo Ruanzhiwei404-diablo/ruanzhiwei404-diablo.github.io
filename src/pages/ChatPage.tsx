@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import type { Message } from '../data/resources';
 import { generateId, formatTime } from '../data/resources';
 
-export default function ChatPage({ apiKey }: { apiKey: string }) {
+export default function ChatPage({ apiKey, baseUrl }: { apiKey: string; baseUrl: string }) {
   const [msgs, setMsgs] = useState<Message[]>(() => { try { return JSON.parse(localStorage.getItem('c_msgs') || '[]'); } catch { return []; } });
   const [inp, setInp] = useState('');
   const [load, setLoad] = useState(false);
@@ -22,15 +22,15 @@ export default function ChatPage({ apiKey }: { apiKey: string }) {
     if (!apiKey) {
       await new Promise(r => setTimeout(r, 800));
       setLoad(false);
-      setMsgs(prev => [...prev, { id: generateId(), role: 'assistant', time: formatTime(), content: '⚠️ 尚未配置 API Key。\n\n请先点击右上角「未配置」按钮填入你的 OpenAI API Key。\n\n获取方式：打开 https://platform.openai.com/api-keys 创建 key' }]);
+      setMsgs(prev => [...prev, { id: generateId(), role: 'assistant', time: formatTime(), content: '⚠️ 尚未配置 API Key。\n\n请先点击右上角「未配置」按钮填入你的 API Key。' }]);
       return;
     }
 
     try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      const res = await fetch(baseUrl + '/chat/completions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-        body: JSON.stringify({ model: 'gpt-4o-mini', messages: [...msgs.map(m => ({ role: m.role, content: m.content })), { role: 'user', content: txt }], stream: true }),
+        body: JSON.stringify({ model: 'Qwen/Qwen2.5-7B-Instruct', messages: [...msgs.map(m => ({ role: m.role, content: m.content })), { role: 'user', content: txt }], stream: true }),
       });
       if (!res.ok) throw new Error('API 请求失败 (' + res.status + ')');
       const reader = res.body?.getReader();
@@ -55,7 +55,7 @@ export default function ChatPage({ apiKey }: { apiKey: string }) {
       const msg = err instanceof Error ? err.message : String(err);
       setMsgs(prev => [...prev, { id: generateId(), role: 'assistant', time: formatTime(), content: '❌ ' + msg }]);
     } finally { setLoad(false); }
-  }, [inp, load, apiKey, msgs]);
+  }, [inp, load, apiKey, baseUrl, msgs]);
 
   const clear = () => { setMsgs([]); localStorage.removeItem('c_msgs'); };
 
@@ -94,7 +94,7 @@ export default function ChatPage({ apiKey }: { apiKey: string }) {
             <div style={{ fontSize: 56, marginBottom: 16 }}>🎵</div>
             <div style={{ fontSize: 20, fontWeight: 700, color: '#f1f5f9', marginBottom: 8 }}>because AI 对话助手</div>
             <div style={{ fontSize: 13, color: '#6b7280', lineHeight: 2 }}>
-              基于 GPT-4o mini，支持声音创作、编曲、AI 技术咨询等<br />
+              基于大语言模型，支持声音创作、编曲、AI 技术咨询等<br />
               <span style={{ fontSize: 11.5, color: '#4b5563' }}>按 Enter 发送，Shift+Enter 换行</span>
             </div>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center', marginTop: 24 }}>

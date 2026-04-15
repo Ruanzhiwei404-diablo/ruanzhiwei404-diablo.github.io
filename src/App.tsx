@@ -16,6 +16,7 @@ const NAV: { p: Page; label: string }[] = [
 export default function App() {
   const [page, setPage] = useState<Page>('home');
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('openai_api_key') || '');
+  const [baseUrl, setBaseUrl] = useState(() => localStorage.getItem('openai_base_url') || 'https://api.openai.com/v1');
   const [showSettings, setShowSettings] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -74,10 +75,17 @@ export default function App() {
             <p style={{ color: '#9ca3af', fontSize: 13, lineHeight: 1.7, marginBottom: 8 }}>
               AI 对话需要 <strong style={{ color: '#a855f7' }}>OpenAI API Key</strong> 才能正常回答，支持 GPT-4o / GPT-4o mini 等模型。Key 仅存储在本地浏览器。
             </p>
-            <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx"
-              style={{ width: '100%', padding: '10px 14px', background: '#1a1a30', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: '#e5e7eb', fontSize: 13, outline: 'none', marginBottom: 12, fontFamily: 'monospace' }} />
+            <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="API Key"
+              style={{ width: '100%', padding: '10px 14px', background: '#1a1a30', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: '#e5e7eb', fontSize: 13, outline: 'none', marginBottom: 10, fontFamily: 'monospace' }} />
+            <input type="text" value={baseUrl} onChange={e => setBaseUrl(e.target.value)} placeholder="https://api.openai.com/v1"
+              style={{ width: '100%', padding: '10px 14px', background: '#1a1a30', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: '#e5e7eb', fontSize: 12.5, outline: 'none', marginBottom: 12, fontFamily: 'monospace' }} />
+            <div style={{ fontSize: 11.5, color: '#6b7280', marginBottom: 12, lineHeight: 1.6 }}>
+              <div style={{ marginBottom: 4 }}>💡 接口地址示例：</div>
+              <div>• OpenAI：<code style="color: '#a855f7'">https://api.openai.com/v1</code></div>
+              <div>• 硅基流动：<code style="color: '#a855f7'">https://api.siliconflow.cn/v1</code></div>
+            </div>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={() => { localStorage.setItem('openai_api_key', apiKey); setShowSettings(false); }}
+              <button onClick={() => { localStorage.setItem('openai_api_key', apiKey); localStorage.setItem('openai_base_url', baseUrl); setShowSettings(false); }}
                 disabled={!apiKey}
                 style={{ flex: 1, padding: '9px 0', background: 'linear-gradient(135deg, #7c3aed, #db2777)', border: 'none', borderRadius: 10, color: '#fff', fontSize: 13, fontWeight: 600, cursor: apiKey ? 'pointer' : 'not-allowed', opacity: apiKey ? 1 : 0.5 }}>
                 保存并使用
@@ -94,7 +102,7 @@ export default function App() {
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         {page === 'home' && <Home onNav={setPage} />}
-        {page === 'chat' && <ChatPage apiKey={apiKey} />}
+        {page === 'chat' && <ChatPage apiKey={apiKey} baseUrl={baseUrl} />}
         {page === 'resources' && <ResourcesPage />}
         {page === 'tools' && (
           <div style={{ maxWidth: 800, margin: '0 auto', padding: '32px 24px', width: '100%' }}>
