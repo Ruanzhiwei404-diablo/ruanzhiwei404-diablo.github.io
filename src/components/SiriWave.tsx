@@ -40,7 +40,7 @@ export default function SiriWave() {
 
     function animate() {
       time += 0.012;
-      const paths = svg.querySelectorAll('.siri-blob');
+      const paths = svg!.querySelectorAll('.siri-blob');
 
       blobs.forEach((blob, i) => {
         const path = paths[i] as SVGPathElement;

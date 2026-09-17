@@ -4,5 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/ruanzhiwei404-diablo.github.io/',
+  base: '/',
+  cacheDir: '../.vite-cache',
 })

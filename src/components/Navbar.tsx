@@ -21,7 +21,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2.5 no-underline shrink-0" onClick={() => setMobileOpen(false)}>
           <img
-            src="/ruanzhiwei404-diablo.github.io/icon-v2.png"
+            src="/icon-v2.png"
             alt="because"
             className="w-[52px] h-[52px] rounded-xl block shadow-[0_6px_24px_rgba(219,39,119,0.4)]"
           />

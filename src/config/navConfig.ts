@@ -12,13 +12,16 @@ export type NavItem = {
   children?: NavItem[]; // 子菜单
 };
 
-export const APP_VERSION = 'v1.0.2';
+export const APP_VERSION = 'v1.0.7';
 
 export const NAV_ITEMS: NavItem[] = [
   { id: 'home', label: '首页', path: '/' },
   { id: 'chat', label: 'AI 对话', path: '/chat' },
   { id: 'resources', label: '资源导航', path: '/resources' },
   { id: 'tools', label: '工具箱', path: '/tools' },
+  { id: 'audio', label: '音频设计', path: '/audio' },
+  { id: 'music', label: '音乐图谱', path: '/music' },
+  { id: 'game', label: '游戏百科', path: '/game' },
   { id: 'about', label: '关于', path: '/about' },
 ];
 
