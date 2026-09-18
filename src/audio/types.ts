@@ -295,3 +295,77 @@ export const KEYBOARD_MAP: Record<string, number> = {
   't': 6, 'g': 7, 'y': 8, 'h': 9, 'u': 10, 'j': 11,
   'k': 12, 'o': 13, 'l': 14, 'p': 15, ';': 16,
 };
+
+// === Voice Lab types (instrument language / ET alien) ===
+
+export type VoiceConsonant = 'none' | 't' | 'k' | 's' | 'sh' | 'plosive';
+
+export interface VoiceSyllable {
+  consonant: VoiceConsonant; // articulation placed before the vowel
+  vowel: string;             // key into VOWELS
+  pitchOffset: number;       // semitone offset for this syllable
+}
+
+export interface VoiceWord {
+  name: string;        // alien spelling
+  gloss: string;       // human meaning
+  category: string;
+  syllables: VoiceSyllable[];
+}
+
+export interface VoiceLabParams {
+  volume: number;        // 0-1 master volume
+  source: OscillatorType;// glottal waveform
+  pitch: number;         // 70-400 Hz base speaking pitch
+  contour: number;       // -1..1 pitch glide across the syllable
+  vowel: string;         // active vowel key (quick picker)
+  formant1: number;      // 250-1000 Hz F1
+  formant2: number;      // 700-2800 Hz F2
+  formantQ: number;      // 3-20 formant resonance
+  alienize: number;      // 0-1 ring-modulation (ET) depth
+  carrierFreq: number;   // 50-2000 Hz ring-mod carrier
+  consonant: VoiceConsonant; // default articulation
+  consAmt: number;       // 0-1 consonant amount
+  breath: number;        // 0-1 breath noise
+  space: number;         // 0-1 space delay amount
+  decay: number;         // 0.1-1.5 s syllable length
+}
+
+export const DEFAULT_VOICE_LAB_PARAMS: VoiceLabParams = {
+  volume: 0.6,
+  source: 'sawtooth',
+  pitch: 140,
+  contour: 0.1,
+  vowel: 'a',
+  formant1: 800,
+  formant2: 1200,
+  formantQ: 8,
+  alienize: 0.35,
+  carrierFreq: 320,
+  consonant: 'none',
+  consAmt: 0.6,
+  breath: 0.1,
+  space: 0.3,
+  decay: 0.35,
+};
+
+// Vowel formant table (approximate) — human vowels + alien vowels
+export const VOWELS: Record<string, { f1: number; f2: number; label: string }> = {
+  a:  { f1: 800,  f2: 1200, label: 'A' },
+  e:  { f1: 400,  f2: 2300, label: 'E' },
+  i:  { f1: 300,  f2: 2700, label: 'I' },
+  o:  { f1: 450,  f2: 800,  label: 'O' },
+  u:  { f1: 320,  f2: 800,  label: 'U' },
+  ae: { f1: 600,  f2: 1600, label: 'Æ' },
+  eu: { f1: 500,  f2: 1000, label: 'EU' },
+  ix: { f1: 350,  f2: 2100, label: 'Ï' },
+};
+
+export const CONSONANTS: { id: VoiceConsonant; label: string }[] = [
+  { id: 'none', label: '∅' },
+  { id: 't', label: 'T' },
+  { id: 'k', label: 'K' },
+  { id: 's', label: 'S' },
+  { id: 'sh', label: 'SH' },
+  { id: 'plosive', label: 'P' },
+];

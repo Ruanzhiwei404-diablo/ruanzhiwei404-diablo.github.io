@@ -33,15 +33,23 @@ const sections = [
     link: '/audio/synth-lab',
     color: '#f59e0b',
   },
+  {
+    title: 'Voice lab 语言实验室',
+    desc: '用 Web Audio 合成「乐器语言 / ET 外星人」语音 — 共振峰(formant)元音 + 环形调制(alienize)金属外星嗓音 + 辅音爆破，内置一套可点击发音的构造语言词库。',
+    tags: ['构造语言', '共振峰合成', '外星嗓音', '发音词库'],
+    link: '/audio/voice-lab',
+    color: '#22d3ee',
+  },
 ];
 
-function AppIcon({ type }: { type: 'sfx' | 'music' | 'engine' | 'synth' | 'graph' }) {
+function AppIcon({ type }: { type: 'sfx' | 'music' | 'engine' | 'synth' | 'graph' | 'voice' }) {
   const gradients: Record<string, [string, string]> = {
     sfx: ['#a855f7', '#6d28d9'],
     music: ['#ec4899', '#e11d48'],
     engine: ['#06b6d4', '#0284c7'],
     synth: ['#f59e0b', '#d97706'],
     graph: ['#10b981', '#059669'],
+    voice: ['#22d3ee', '#0891b2'],
   };
   const [c1, c2] = gradients[type];
 
@@ -94,11 +102,19 @@ function AppIcon({ type }: { type: 'sfx' | 'music' | 'engine' | 'synth' | 'graph
           <path d="M14.5 10.5L13 14" stroke="white" strokeWidth="1.2" opacity=".5"/>
         </svg>
       )}
+      {type === 'voice' && (
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3c-4 0-7 3.5-7 8 0 3 1.5 5 3 6 .3 2 1.5 3 4 3s3.7-1 4-3c1.5-1 3-3 3-6 0-4.5-3-8-7-8z" stroke="white" strokeWidth="1.4"/>
+          <circle cx="9.3" cy="11" r="1.4" fill="white"/>
+          <circle cx="14.7" cy="11" r="1.4" fill="white"/>
+          <path d="M10.5 15.2c.7.6 1.3.9 1.5.9s.8-.3 1.5-.9" stroke="white" strokeWidth="1.1" strokeLinecap="round"/>
+        </svg>
+      )}
     </div>
   );
 }
 
-const iconMap = ['sfx', 'music', 'engine', 'synth'] as const;
+const iconMap = ['sfx', 'music', 'engine', 'synth', 'voice'] as const;
 
 export default function AudioDesignPage() {
   const [musicOn, setMusicOn] = useState(false);

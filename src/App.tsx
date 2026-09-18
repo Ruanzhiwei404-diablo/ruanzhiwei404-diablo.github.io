@@ -16,6 +16,7 @@ import SynthLabPage from './pages/SynthLabPage';
 import CrystalPrismPage from './pages/CrystalPrismPage';
 import SubBassPage from './pages/SubBassPage';
 import CuteSynthPage from './pages/CuteSynthPage';
+import VoiceLabPage from './pages/VoiceLabPage';
 import PrismPlusPage from './pages/PrismPlusPage';
 import BassPage from './pages/BassPage';
 import MusicGraphPage from './pages/MusicGraphPage';
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="audio/synth-lab/sub-bass" element={<SubBassPage />} />
           <Route path="audio/synth-lab/sub-bass/bass" element={<BassPage />} />
           <Route path="audio/synth-lab/cute-synth" element={<CuteSynthPage />} />
+          <Route path="audio/voice-lab" element={<VoiceLabPage />} />
           <Route path="music" element={<MusicGraphPage />} />
           <Route path="music/instruments" element={<InstrumentsPage />} />
           <Route path="music/artists" element={<ArtistsPage />} />
