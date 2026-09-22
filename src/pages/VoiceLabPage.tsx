@@ -1,6 +1,20 @@
 import { Link } from 'react-router-dom';
 
-type Section = { id: string; label: string; icon: string; tagline: string; desc: string; href?: string };
+// href: 外链到静态页（如 public 下的独立 HTML 工具）
+// to:   站内 React Router 路由
+type Section = {
+  id: string;
+  label: string;
+  icon: string;
+  tagline: string;
+  desc: string;
+  href?: string;
+  to?: string;
+  cta?: string;
+};
+
+const CTA_CLASS =
+  'block text-center rounded-xl bg-[#22d3ee] hover:bg-[#06b6d4] text-[#062a30] font-bold py-3 px-4 transition-colors';
 
 const SECTIONS: Section[] = [
   {
@@ -10,13 +24,16 @@ const SECTIONS: Section[] = [
     tagline: 'INSTRUMENT LANGUAGE',
     desc: '用乐器音色与演奏语法构建的一套「会发声的语言」——每个词汇由乐器音色、音高走向与节奏型编码而成，可用于游戏内文明、族裔的听觉身份设计。',
     href: '/sound-effects/instrument-language-synth.html',
+    cta: '🎹 进入乐器语言合成器 →',
   },
   {
     id: 'et',
     label: 'ET 外星人',
     icon: '🛸',
     tagline: 'ET ALIEN VOICE',
-    desc: '基于共振峰(formant)元音 + 环形调制(ring-mod)金属嗓音的外星语音合成实验场，可构造具备「非人类」质感的外星对话与呐喊。',
+    desc: '基于共振峰(formant)元音 + 环形调制(ring-mod)金属嗓音的外星语音合成实验场，可构造具备「非人类」质感的外星对话与呐喊。已接入多振荡器外星语言合成器：音素映射、情感匹配、实时演奏与录制。',
+    to: '/audio/voice-lab/et-alien',
+    cta: '🛸 进入外星语言合成器 →',
   },
 ];
 
@@ -36,7 +53,7 @@ export default function VoiceLabPage() {
       {/* 并列双栏 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {SECTIONS.map((s) => (
-          <div className="card p-6 relative overflow-hidden" key={s.id}>
+          <div className="card p-6 relative overflow-hidden flex flex-col" key={s.id}>
             <div
               className="absolute top-0 left-0 right-0 h-[2px]"
               style={{ background: 'linear-gradient(90deg, #22d3ee, transparent)' }}
@@ -58,16 +75,17 @@ export default function VoiceLabPage() {
               </div>
             </div>
 
-            <p className="text-sm text-gray-400 leading-relaxed mb-5">{s.desc}</p>
+            <p className="text-sm text-gray-400 leading-relaxed mb-5 flex-grow">{s.desc}</p>
 
             {/* 进入按钮 / 建设中占位 */}
             {s.href ? (
-              <a
-                href={s.href}
-                className="block text-center rounded-xl bg-[#22d3ee] hover:bg-[#06b6d4] text-[#062a30] font-bold py-3 px-4 transition-colors"
-              >
-                🎹 进入乐器语言合成器 →
+              <a href={s.href} className={CTA_CLASS}>
+                {s.cta}
               </a>
+            ) : s.to ? (
+              <Link to={s.to} className={CTA_CLASS}>
+                {s.cta}
+              </Link>
             ) : (
               <div className="rounded-xl border border-dashed border-[rgba(34,211,238,0.3)] bg-[rgba(34,211,238,0.04)] p-6 text-center">
                 <div className="text-3xl mb-2">🚧</div>

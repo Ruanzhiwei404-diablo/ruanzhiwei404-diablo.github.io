@@ -19,6 +19,7 @@ import CuteSynthPage from './pages/CuteSynthPage';
 import VoiceLabPage from './pages/VoiceLabPage';
 import GameCenterPage from './pages/GameCenterPage';
 import SynthRacerPage from './pages/SynthRacerPage';
+import EtAlienPage from './pages/EtAlienPage';
 import PrismPlusPage from './pages/PrismPlusPage';
 import BassPage from './pages/BassPage';
 import MusicGraphPage from './pages/MusicGraphPage';
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="audio/synth-lab/sub-bass/bass" element={<BassPage />} />
           <Route path="audio/synth-lab/cute-synth" element={<CuteSynthPage />} />
           <Route path="audio/voice-lab" element={<VoiceLabPage />} />
+          <Route path="audio/voice-lab/et-alien" element={<EtAlienPage />} />
           <Route path="music" element={<MusicGraphPage />} />
           <Route path="music/instruments" element={<InstrumentsPage />} />
           <Route path="music/artists" element={<ArtistsPage />} />

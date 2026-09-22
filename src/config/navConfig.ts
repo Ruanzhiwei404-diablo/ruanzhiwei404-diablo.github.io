@@ -12,7 +12,7 @@ export type NavItem = {
   children?: NavItem[]; // 子菜单
 };
 
-export const APP_VERSION = 'v2.0.1';
+export const APP_VERSION = 'v2.1.0';
 
 export const NAV_ITEMS: NavItem[] = [
   { id: 'home', label: '首页', path: '/' },
