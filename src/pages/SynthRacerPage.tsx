@@ -41,6 +41,22 @@ function catmullRom(p0: Vec, p1: Vec, p2: Vec, p3: Vec, t: number): Vec {
   };
 }
 
+/** 圆角矩形路径（避免依赖 ctx.roundRect 的浏览器兼容性） */
+function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  const rad = Math.min(r, Math.abs(w) / 2, Math.abs(h) / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + rad, y);
+  ctx.lineTo(x + w - rad, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + rad);
+  ctx.lineTo(x + w, y + h - rad);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - rad, y + h);
+  ctx.lineTo(x + rad, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - rad);
+  ctx.lineTo(x, y + rad);
+  ctx.quadraticCurveTo(x, y, x + rad, y);
+  ctx.closePath();
+}
+
 const SAMPLES_PER_SEG = 14;
 const TRACK_POINTS: Vec[] = (() => {
   const pts: Vec[] = [];
@@ -111,6 +127,8 @@ export default function SynthRacerPage() {
   const lastTRef = useRef(0);
   const lastHudRef = useRef(0);
   const paramsRef = useRef<CarVoiceParams>({ ...INITIAL_PARAMS });
+  // 供暂停恢复 / 重开时重新驱动主循环（完赛或暂停后 rAF 已停止）
+  const kickRef = useRef<(() => void) | null>(null);
 
   const [started, setStarted] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -131,6 +149,11 @@ export default function SynthRacerPage() {
   }, []);
 
   const startGame = useCallback(async () => {
+    // 防止重复启动 / 再次进入时残留旧引擎导致声音叠加
+    if (engineRef.current) {
+      engineRef.current.destroy();
+      engineRef.current = null;
+    }
     const engine = new CarVoiceEngine();
     engineRef.current = engine;
     engine.setParams(paramsRef.current);
@@ -141,6 +164,24 @@ export default function SynthRacerPage() {
     setStarted(true);
     runningRef.current = true;
     lastTRef.current = performance.now();
+  }, [resetState]);
+
+  // 离开页面（含返回游戏中心）时彻底销毁引擎，避免声音残留
+  useEffect(() => () => {
+    runningRef.current = false;
+    cancelAnimationFrame(rafRef.current);
+    kickRef.current = null;
+    engineRef.current?.destroy();
+    engineRef.current = null;
+  }, []);
+
+  // 重开一局：重置状态并重新驱动主循环
+  const restartRace = useCallback(() => {
+    resetState();
+    setFinished(false);
+    setPaused(false);
+    engineRef.current?.setEngineLevel(0.0001);
+    kickRef.current?.();
   }, [resetState]);
 
   // 驾驶舱面板改参数 -> 实时作用于引擎
@@ -215,26 +256,120 @@ export default function SynthRacerPage() {
         }
       }
 
-      // 车辆
+      // ===== 车辆：俯视 F1 方程式赛车 =====
       ctx.save();
       ctx.translate(st.x, st.y);
       ctx.rotate(st.angle);
-      ctx.fillStyle = st.onTrack ? '#22d3ee' : '#f87171';
-      ctx.strokeStyle = '#0a0a14';
-      ctx.lineWidth = 2;
-      const L = 34, W = 16;
+      ctx.scale(1.3, 1.3); // 视觉放大（纯外观，不参与赛道判定）
+
+      const k = keysRef.current;
+      const steerVis = (k.has('ArrowLeft') || k.has('KeyA') ? -1 : 0) + (k.has('ArrowRight') || k.has('KeyD') ? 1 : 0);
+      const braking = k.has('ArrowDown') || k.has('KeyS');
+      const thrust = clamp(st.speed / MAX_SPEED, 0, 1);
+      const boosting = st.boostTimer > 0;
+      const body = st.onTrack ? '#22d3ee' : '#f87171';
+      const bodyDark = st.onTrack ? '#0b5f75' : '#7f1d1d';
+
+      // 1) 尾焰（推进 / 氮气）
+      if (thrust > 0.06 || boosting) {
+        const fl = 10 + thrust * 20 + (boosting ? 18 : 0);
+        const fg = ctx.createLinearGradient(-18, 0, -18 - fl, 0);
+        fg.addColorStop(0, boosting ? 'rgba(236,72,153,0.9)' : 'rgba(34,211,238,0.75)');
+        fg.addColorStop(0.45, boosting ? 'rgba(168,85,247,0.45)' : 'rgba(34,211,238,0.28)');
+        fg.addColorStop(1, 'rgba(168,85,247,0)');
+        ctx.fillStyle = fg;
+        ctx.beginPath();
+        ctx.moveTo(-17, -4.6);
+        ctx.lineTo(-18 - fl, 0);
+        ctx.lineTo(-17, 4.6);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // 2) 尾翼（含端板）
+      ctx.fillStyle = '#111827';
+      rr(ctx, -23, -10.5, 4.5, 21, 1.6); ctx.fill();
+      ctx.fillStyle = '#1f2937';
+      ctx.fillRect(-24, -11, 6, 3);
+      ctx.fillRect(-24, 8, 6, 3);
+
+      // 3) 四个轮胎（前轮随转向偏转，后轮更宽）
+      const wheel = (wx: number, wy: number, halfLen: number, halfWid: number, turn: number) => {
+        ctx.save();
+        ctx.translate(wx, wy);
+        ctx.rotate(turn);
+        ctx.fillStyle = '#0a0d13';
+        ctx.fillRect(-halfLen, -halfWid, halfLen * 2, halfWid * 2);
+        ctx.fillStyle = '#151a24';
+        ctx.fillRect(-halfLen + 0.8, -halfWid + 0.8, halfLen * 2 - 1.6, halfWid * 2 - 1.6);
+        ctx.strokeStyle = 'rgba(148,163,184,0.35)';
+        ctx.lineWidth = 0.9;
+        ctx.strokeRect(-halfLen, -halfWid, halfLen * 2, halfWid * 2);
+        ctx.restore();
+      };
+      wheel(12.5, -10.8, 5.2, 2.6, steerVis * 0.32);
+      wheel(12.5, 10.8, 5.2, 2.6, steerVis * 0.32);
+      wheel(-11.5, -11.4, 6.2, 3.1, 0);
+      wheel(-11.5, 11.4, 6.2, 3.1, 0);
+
+      // 4) 车身主体（鼻锥 → 侧箱 → 尾部）
       ctx.beginPath();
-      ctx.moveTo(L / 2, 0);
-      ctx.lineTo(-L / 2 + 6, -W / 2);
-      ctx.lineTo(-L / 2, -W / 2 + 4);
-      ctx.lineTo(-L / 2, W / 2 - 4);
-      ctx.lineTo(-L / 2 + 6, W / 2);
+      ctx.moveTo(22, 0);
+      ctx.lineTo(17.5, -3.2);
+      ctx.lineTo(9, -5.4);
+      ctx.lineTo(0, -6.6);
+      ctx.lineTo(-9, -7.4);
+      ctx.lineTo(-16, -6.6);
+      ctx.lineTo(-18.5, -4.4);
+      ctx.lineTo(-18.5, 4.4);
+      ctx.lineTo(-16, 6.6);
+      ctx.lineTo(-9, 7.4);
+      ctx.lineTo(0, 6.6);
+      ctx.lineTo(9, 5.4);
+      ctx.lineTo(17.5, 3.2);
       ctx.closePath();
+      const bg = ctx.createLinearGradient(-18, 0, 22, 0);
+      bg.addColorStop(0, bodyDark);
+      bg.addColorStop(0.5, body);
+      bg.addColorStop(1, bodyDark);
+      ctx.shadowColor = body;
+      ctx.shadowBlur = boosting ? 20 : 9;
+      ctx.fillStyle = bg;
       ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = 'rgba(8,10,18,0.85)';
+      ctx.lineWidth = 1.4;
       ctx.stroke();
-      // 座舱
-      ctx.fillStyle = '#0f172a';
-      ctx.fillRect(-6, -5, 12, 10);
+
+      // 5) 引擎盖中央高光条
+      ctx.fillStyle = 'rgba(255,255,255,0.22)';
+      ctx.fillRect(-15, -1.1, 21, 2.2);
+
+      // 6) 侧箱进气口
+      ctx.fillStyle = 'rgba(6,10,20,0.92)';
+      rr(ctx, 1, -7.8, 6.5, 2.6, 1); ctx.fill();
+      rr(ctx, 1, 5.2, 6.5, 2.6, 1); ctx.fill();
+
+      // 7) 座舱 + 车手头盔
+      ctx.fillStyle = '#080c18';
+      rr(ctx, -5.5, -4.6, 12, 9.2, 3.4); ctx.fill();
+      ctx.fillStyle = st.onTrack ? '#e8f8ff' : '#ffe4e6';
+      ctx.beginPath(); ctx.arc(0.8, 0, 3.3, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#0a0a14';
+      ctx.beginPath(); ctx.arc(2.1, 0, 2.1, 0, Math.PI * 2); ctx.fill();
+
+      // 8) 前翼（宽于车身）
+      ctx.fillStyle = '#111827';
+      rr(ctx, 18, -12.5, 5.5, 25, 2); ctx.fill();
+      ctx.strokeStyle = 'rgba(34,211,238,0.55)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // 9) 尾灯（刹车/倒车时点亮）
+      ctx.fillStyle = braking ? '#ff3b3b' : 'rgba(255,70,70,0.3)';
+      ctx.fillRect(-19.6, -4.6, 2.6, 3);
+      ctx.fillRect(-19.6, 1.6, 2.6, 3);
+
       ctx.restore();
 
       ctx.restore();
@@ -340,12 +475,30 @@ export default function SynthRacerPage() {
 
     rafRef.current = requestAnimationFrame(loop);
 
+    // 暂停恢复 / 重开：重新计时并重启 rAF
+    kickRef.current = () => {
+      lastTRef.current = performance.now();
+      runningRef.current = true;
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(loop);
+    };
+
     return () => {
       runningRef.current = false;
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener('resize', resize);
     };
   }, [started]);
+
+  const togglePause = useCallback(() => {
+    setPaused(prev => {
+      const next = !prev;
+      runningRef.current = !next;
+      if (next) engineRef.current?.setEngineLevel(0);
+      else { engineRef.current?.setEngineLevel(0.0001); kickRef.current?.(); }
+      return next;
+    });
+  }, []);
 
   // 键盘
   useEffect(() => {
@@ -359,7 +512,7 @@ export default function SynthRacerPage() {
         engineRef.current?.playBoost();
       }
       if (e.code === 'KeyP') togglePause();
-      if (e.code === 'KeyR') { resetState(); setFinished(false); setPaused(false); runningRef.current = true; lastTRef.current = performance.now(); }
+      if (e.code === 'KeyR') restartRace();
     };
     const up = (e: KeyboardEvent) => keysRef.current.delete(e.code);
     window.addEventListener('keydown', down);
@@ -368,17 +521,7 @@ export default function SynthRacerPage() {
       window.removeEventListener('keydown', down);
       window.removeEventListener('keyup', up);
     };
-  }, [started, resetState]);
-
-  const togglePause = useCallback(() => {
-    setPaused(prev => {
-      const next = !prev;
-      runningRef.current = !next;
-      if (next) engineRef.current?.setEngineLevel(0);
-      else { lastTRef.current = performance.now(); engineRef.current?.setEngineLevel(0.0001); }
-      return next;
-    });
-  }, []);
+  }, [started, restartRace, togglePause]);
 
   const fmt = (s: number) => s > 0 ? s.toFixed(2) + 's' : '--';
 
@@ -473,7 +616,7 @@ export default function SynthRacerPage() {
           <div className="text-center">
             <div className="text-2xl font-black text-white mb-4">⏸ 已暂停</div>
             <button onClick={togglePause} className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm mr-2">继续</button>
-            <button onClick={() => { resetState(); setFinished(false); setPaused(false); runningRef.current = true; lastTRef.current = performance.now(); }} className="px-5 py-2.5 rounded-xl border border-white/20 text-gray-300 hover:text-white font-bold text-sm">重开</button>
+            <button onClick={restartRace} className="px-5 py-2.5 rounded-xl border border-white/20 text-gray-300 hover:text-white font-bold text-sm">重开</button>
           </div>
         </div>
       )}
@@ -486,7 +629,7 @@ export default function SynthRacerPage() {
             <h2 className="text-2xl font-black text-white mb-1">完赛！</h2>
             <p className="text-sm text-gray-300 mb-1">最佳单圈 <span className="text-purple-300 font-bold">{fmt(hud.best)}</span></p>
             <p className="text-xs text-gray-500 mb-5">共 {TOTAL_LAPS} 圈</p>
-            <button onClick={() => { resetState(); setFinished(false); setPaused(false); runningRef.current = true; lastTRef.current = performance.now(); }} className="px-6 py-3 rounded-xl text-white font-bold text-sm" style={{ background: 'linear-gradient(135deg,#a855f7,#7c3aed)' }}>再来一局</button>
+            <button onClick={restartRace} className="px-6 py-3 rounded-xl text-white font-bold text-sm" style={{ background: 'linear-gradient(135deg,#a855f7,#7c3aed)' }}>再来一局</button>
           </div>
         </div>
       )}

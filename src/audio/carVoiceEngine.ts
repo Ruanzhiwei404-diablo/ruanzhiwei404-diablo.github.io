@@ -223,12 +223,31 @@ export class CarVoiceEngine {
     if (this.dry) this.dry.gain.value = 1 - p.reverbWet;
   }
 
+  isRunning(): boolean {
+    return !!this.ctx && this.ctx.state === 'running' && !!this.engineOsc;
+  }
+
   destroy(): void {
+    // 先把增益压到 0，避免直接 stop 产生爆音（click）
+    try {
+      if (this.ctx && this.engineGain) {
+        this.engineGain.gain.cancelScheduledValues(this.ctx.currentTime);
+        this.engineGain.gain.setValueAtTime(0.0001, this.ctx.currentTime);
+      }
+    } catch { /* noop */ }
     try { this.engineOsc?.stop(); } catch { /* noop */ }
     try { this.engineSub?.stop(); } catch { /* noop */ }
+    this.engineOsc = null;
+    this.engineSub = null;
+    this.engineFilter = null;
+    this.engineGain = null;
     if (this.ctx) {
       this.ctx.close().catch(() => { /* noop */ });
       this.ctx = null;
     }
+    this.master = null;
+    this.convolver = null;
+    this.wet = null;
+    this.dry = null;
   }
 }
