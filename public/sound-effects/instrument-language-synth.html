@@ -1664,8 +1664,8 @@
         <div class="toolbar-title">🎵 乐器语言合成器</div>
         <button id="btn-start-audio" class="toolbar-btn">🔊 启动音频引擎</button>
     </div>
-    <!-- 启动遮罩（默认隐藏，仅作备用） -->
-    <div class="start-overlay hidden" id="startOverlay">
+    <!-- 启动遮罩：进入页面即弹出，点击后才初始化音频引擎 -->
+    <div class="start-overlay" id="startOverlay">
         <div class="modal-card">
             <h2>🎵 乐器语言合成器</h2>
             <p>将文字转换为乐器演奏 · 选择音色 · 体验音乐语言</p>
@@ -5000,8 +5000,22 @@
         // SCRIPT_MIDDLE - initAudio 定义点
         console.log('SCRIPT_MIDDLE');
 
+        /** 引擎启动后：隐藏遮罩，顶栏保持常驻，按钮切换为运行中态 */
+        function markAudioStarted() {
+            const overlay = document.getElementById('startOverlay');
+            if (overlay) overlay.classList.add('hidden');
+            const btn = document.getElementById('btn-start-audio');
+            if (btn) {
+                btn.textContent = '✅ 引擎运行中';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                btn.style.cursor = 'default';
+            }
+        }
+
         async function initAudio() {
             console.log('INIT_AUDIO_CALLED');
+            if (audioContext) { console.log('[initAudio] 引擎已启动，跳过重复初始化'); return; }
             try {
                 // Safari 兼容性：使用 webkitAudioContext
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -5046,8 +5060,7 @@
                 // 生成音符键盘
                 generateNoteKeyboard();
 
-                document.getElementById('startOverlay').classList.add('hidden');
-                    document.getElementById('audioToolbar').classList.add('hidden');
+                markAudioStarted();
                 document.getElementById('statusText').textContent = '就绪 (真实钢琴音色)';
                 addToHistory('真实钢琴音色已加载');
 
@@ -11525,18 +11538,8 @@
             const btnStartModal = document.getElementById('btn-start-audio-modal');
             if (btnStartModal) {
                 btnStartModal.addEventListener('click', async () => {
-                    if (!audioContext) {
-                        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                        await audioContext.resume();
-                    }
-                    if (audioContext.state === 'suspended') {
-                        await audioContext.resume();
-                    }
-                    document.getElementById('startOverlay').classList.add('hidden');
-                    document.getElementById('audioToolbar').classList.add('hidden');
-                    document.getElementById('audioToolbar').classList.add('hidden');
-                    if (!animationId) visualize();
-                    updateStatus('音频引擎已启动');
+                    // 完整初始化：创建上下文 + 加载采样 + 生成键盘（遮罩隐藏与顶栏状态由 markAudioStarted 统一处理）
+                    await initAudio();
                 });
             }
             if (btnStart) {
