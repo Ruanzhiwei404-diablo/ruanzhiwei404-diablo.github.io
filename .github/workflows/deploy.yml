@@ -36,6 +36,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      # SPA 路由回落：Pages 找不到子路径时返回 404.html，
+      # 内容与 index.html 一致，加载后由 React Router 接管当前 URL
+      - name: SPA fallback
+        run: cp dist/index.html dist/404.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
