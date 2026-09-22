@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NAV_ITEMS, APP_VERSION } from '../config/navConfig';
+import { NAV_ITEMS, APP_VERSION, getActiveNav } from '../config/navConfig';
 
 export default function Navbar() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-
-  const isActive = (path: string) => {
-    if (path === '/') return location.pathname === '/';
-    return location.pathname.startsWith(path);
-  };
+  const activeId = getActiveNav(location.pathname);
 
   const apiKey = localStorage.getItem('openai_api_key');
 
@@ -40,7 +36,7 @@ export default function Navbar() {
               key={item.id}
               to={item.path}
               className={`no-underline px-5 py-2 rounded-lg text-[16px] transition-all duration-200 ${
-                isActive(item.path)
+                activeId === item.id
                   ? 'bg-[rgba(124,58,237,0.18)] text-purple-400 font-bold'
                   : 'text-gray-500 font-semibold hover:bg-[rgba(255,255,255,0.04)] hover:text-gray-300'
               }`}
@@ -90,7 +86,7 @@ export default function Navbar() {
               to={item.path}
               onClick={() => setMobileOpen(false)}
               className={`block w-full no-underline rounded-lg py-2.5 px-3 text-[15px] mb-0.5 transition-all duration-200 ${
-                isActive(item.path)
+                activeId === item.id
                   ? 'text-purple-400 font-semibold'
                   : 'text-gray-500 font-normal hover:bg-[rgba(255,255,255,0.04)]'
               }`}

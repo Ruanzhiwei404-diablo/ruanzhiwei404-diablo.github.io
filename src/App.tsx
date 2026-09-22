@@ -17,6 +17,8 @@ import CrystalPrismPage from './pages/CrystalPrismPage';
 import SubBassPage from './pages/SubBassPage';
 import CuteSynthPage from './pages/CuteSynthPage';
 import VoiceLabPage from './pages/VoiceLabPage';
+import GameCenterPage from './pages/GameCenterPage';
+import SynthRacerPage from './pages/SynthRacerPage';
 import PrismPlusPage from './pages/PrismPlusPage';
 import BassPage from './pages/BassPage';
 import MusicGraphPage from './pages/MusicGraphPage';
@@ -40,6 +42,8 @@ export default function App() {
           <Route path="audio/sound-effects" element={<SoundEffectsPage />} />
           <Route path="game" element={<GameEncyclopediaPage />} />
           <Route path="game/world" element={<GameWorldPage />} />
+          <Route path="game-center" element={<GameCenterPage />} />
+          <Route path="game-center/synth-racer" element={<SynthRacerPage />} />
           <Route path="audio/music-handbook" element={<GameMusicHandbookPage />} />
           <Route path="audio/synth-lab" element={<SynthLabPage />} />
           <Route path="audio/synth-lab/crystal-prism" element={<CrystalPrismPage />} />

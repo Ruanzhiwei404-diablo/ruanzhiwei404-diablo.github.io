@@ -3,7 +3,7 @@ export default function AboutPage() {
     <div className="max-w-[640px] mx-auto py-8 px-6 w-full">
       <div className="text-center mb-9">
         <img
-          src="/ruanzhiwei404-diablo.github.io/icon-v2.png"
+          src="/icon-v2.png"
           alt="because"
           className="w-24 h-24 rounded-3xl block mx-auto mb-5 shadow-[0_10px_48px_rgba(219,39,119,0.4)]"
         />

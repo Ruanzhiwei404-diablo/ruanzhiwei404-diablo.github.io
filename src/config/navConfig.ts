@@ -12,7 +12,7 @@ export type NavItem = {
   children?: NavItem[]; // 子菜单
 };
 
-export const APP_VERSION = 'v1.0.7';
+export const APP_VERSION = 'v2.0.1';
 
 export const NAV_ITEMS: NavItem[] = [
   { id: 'home', label: '首页', path: '/' },
@@ -22,12 +22,17 @@ export const NAV_ITEMS: NavItem[] = [
   { id: 'audio', label: '音频设计', path: '/audio' },
   { id: 'music', label: '音乐图谱', path: '/music' },
   { id: 'game', label: '游戏百科', path: '/game' },
+  { id: 'game-center', label: '游戏中心', path: '/game-center' },
   { id: 'about', label: '关于', path: '/about' },
 ];
 
 /** 根据 path 查找当前激活的导航项 */
 export function getActiveNav(pathname: string): string {
   if (pathname === '/') return 'home';
-  const item = NAV_ITEMS.find(n => n.path !== '/' && pathname.startsWith(n.path));
-  return item?.id ?? 'home';
+  // 1) 精确匹配（最高优先）
+  const exact = NAV_ITEMS.find(n => n.path === pathname);
+  if (exact) return exact.id;
+  // 2) 前缀匹配：必须 path + '/'，避免 /game-center 误命中 /game
+  const prefix = NAV_ITEMS.find(n => n.path !== '/' && pathname.startsWith(n.path + '/'));
+  return prefix?.id ?? 'home';
 }

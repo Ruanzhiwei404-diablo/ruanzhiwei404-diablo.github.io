@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-type Section = { id: string; label: string; icon: string; tagline: string; desc: string };
+type Section = { id: string; label: string; icon: string; tagline: string; desc: string; href?: string };
 
 const SECTIONS: Section[] = [
   {
@@ -9,6 +9,7 @@ const SECTIONS: Section[] = [
     icon: '🎼',
     tagline: 'INSTRUMENT LANGUAGE',
     desc: '用乐器音色与演奏语法构建的一套「会发声的语言」——每个词汇由乐器音色、音高走向与节奏型编码而成，可用于游戏内文明、族裔的听觉身份设计。',
+    href: '/sound-effects/instrument-language-synth.html',
   },
   {
     id: 'et',
@@ -59,14 +60,23 @@ export default function VoiceLabPage() {
 
             <p className="text-sm text-gray-400 leading-relaxed mb-5">{s.desc}</p>
 
-            {/* 建设中占位 */}
-            <div className="rounded-xl border border-dashed border-[rgba(34,211,238,0.3)] bg-[rgba(34,211,238,0.04)] p-6 text-center">
-              <div className="text-3xl mb-2">🚧</div>
-              <div className="text-sm font-semibold text-gray-300 mb-1">建设中 · Coming Soon</div>
-              <div className="text-xs text-gray-500">
-                该模块的交互式合成器正在规划中。后续将在此接入共振峰 / 环形调制语音引擎与可点击发音的构造语言词库。
+            {/* 进入按钮 / 建设中占位 */}
+            {s.href ? (
+              <a
+                href={s.href}
+                className="block text-center rounded-xl bg-[#22d3ee] hover:bg-[#06b6d4] text-[#062a30] font-bold py-3 px-4 transition-colors"
+              >
+                🎹 进入乐器语言合成器 →
+              </a>
+            ) : (
+              <div className="rounded-xl border border-dashed border-[rgba(34,211,238,0.3)] bg-[rgba(34,211,238,0.04)] p-6 text-center">
+                <div className="text-3xl mb-2">🚧</div>
+                <div className="text-sm font-semibold text-gray-300 mb-1">建设中 · Coming Soon</div>
+                <div className="text-xs text-gray-500">
+                  该模块的交互式合成器正在规划中。后续将在此接入共振峰 / 环形调制语音引擎与可点击发音的构造语言词库。
+                </div>
               </div>
-            </div>
+            )}
           </div>
         ))}
       </div>
