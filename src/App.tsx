@@ -19,6 +19,7 @@ import CuteSynthPage from './pages/CuteSynthPage';
 import VoiceLabPage from './pages/VoiceLabPage';
 import GameCenterPage from './pages/GameCenterPage';
 import SynthRacerPage from './pages/SynthRacerPage';
+import WhoIsSpyPage from './pages/WhoIsSpyPage';
 import EtAlienPage from './pages/EtAlienPage';
 import PrismPlusPage from './pages/PrismPlusPage';
 import BassPage from './pages/BassPage';
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="game/world" element={<GameWorldPage />} />
           <Route path="game-center" element={<GameCenterPage />} />
           <Route path="game-center/synth-racer" element={<SynthRacerPage />} />
+          <Route path="game-center/who-is-spy" element={<WhoIsSpyPage />} />
           <Route path="audio/music-handbook" element={<GameMusicHandbookPage />} />
           <Route path="audio/synth-lab" element={<SynthLabPage />} />
           <Route path="audio/synth-lab/crystal-prism" element={<CrystalPrismPage />} />

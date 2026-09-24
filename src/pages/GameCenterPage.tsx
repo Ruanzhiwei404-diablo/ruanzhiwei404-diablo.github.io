@@ -4,6 +4,14 @@ type GameSlot = { id: string; label: string; icon: string; tagline: string; desc
 
 const GAME_SLOTS: GameSlot[] = [
   {
+    id: 'who-is-spy',
+    label: '谁是卧底',
+    icon: '🕵️',
+    tagline: 'WHO IS SPY',
+    desc: '经典多人推理派对游戏：平民找出拿到相近词的卧底，轮流描述、投票出局。内置 8 大类词库，3-10 人同设备传递游玩。',
+    href: '/game-center/who-is-spy',
+  },
+  {
     id: 'synth-racer',
     label: '合成器竞速',
     icon: '🏎️',
@@ -81,7 +89,7 @@ export default function GameCenterPage() {
                 to={g.href}
                 className="mt-5 block text-center rounded-xl bg-[#a855f7] hover:bg-[#9333ea] text-white font-bold py-3 px-4 transition-colors"
               >
-                🏎️ 进入游戏 →
+                {g.icon} 进入游戏 →
               </Link>
             ) : (
               <div className="mt-5 rounded-xl border border-dashed border-[rgba(168,85,247,0.3)] bg-[rgba(168,85,247,0.04)] p-4 text-center">
