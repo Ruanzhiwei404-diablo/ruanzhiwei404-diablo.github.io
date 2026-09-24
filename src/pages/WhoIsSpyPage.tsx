@@ -174,6 +174,30 @@ export default function WhoIsSpyPage() {
         </p>
       </div>
 
+      {/* 游戏简介 */}
+      <div className="card p-6 mb-6">
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px]"
+          style={{ background: GRAD_SOFT }}
+        />
+        <h2 className="text-base font-bold text-text-bright mb-2 flex items-center gap-2">
+          <span>📖</span> 游戏简介
+        </h2>
+        <p className="text-[13.5px] text-gray-400 leading-relaxed mb-4">
+          「谁是卧底」是一款多人身份推测游戏，玩家通过描述词语和投票找出卧底，平民和卧底各有不同的胜利条件。
+        </p>
+        <h3 className="text-sm font-semibold text-gray-300 mb-2">🎮 游戏规则</h3>
+        <ul className="space-y-2 text-[13px] text-gray-400">
+          <li>· <span className="text-gray-200 font-semibold">发牌</span>：每位玩家拿到一张纸条，平民词相同，卧底词相似。玩家只知道自己的词语，禁止互相查看。</li>
+          <li>· <span className="text-gray-200 font-semibold">描述</span>：每轮玩家按顺序用一句话描述自己的词语，不能直接说出词语，也不能重复他人描述。描述既要给同伴暗示，又不能让卧底察觉。</li>
+          <li>· <span className="text-gray-200 font-semibold">投票</span>：每轮描述结束后，所有玩家投票选出怀疑的卧底，得票最多者出局。若平票，则平票玩家进行额外一轮描述再投票，仍平票则无人出局。</li>
+          <li>· <span className="text-gray-200 font-semibold">胜利</span>：平民找出所有卧底获胜；卧底人数 ≥ 平民人数或猜出平民词获胜。</li>
+        </ul>
+        <p className="text-[12px] text-gray-500 mt-3">
+          ✨ 支持 3-10 人（推荐 5-8 人），内置丰富词库，每局随机抽取。
+        </p>
+      </div>
+
       {/* 设置 */}
       {phase === 'setup' && (
         <div className="card p-7">

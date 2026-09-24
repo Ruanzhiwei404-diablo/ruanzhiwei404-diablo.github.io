@@ -12,6 +12,22 @@ const GAME_SLOTS: GameSlot[] = [
     href: '/game-center/who-is-spy',
   },
   {
+    id: 'lianliankan',
+    label: '连连看',
+    icon: '🔗',
+    tagline: 'TILE CONNECT',
+    desc: '经典消除益智：选两块相同图案，路径最多两个转弯即可消除。萌宠 / 植物 / 水果三套主题，4 档难度，含提示、洗牌、连击与计时挑战。',
+    href: '/game-center/lianliankan',
+  },
+  {
+    id: 'water-sort',
+    label: '色彩排列',
+    icon: '🧪',
+    tagline: 'WATER SORT',
+    desc: '经典水排序益智：同色可倒、满管归位，137 关关卡地图无倒计时，内置自动求解演示、撤销与显示色号，进度与评星本地保存。',
+    href: '/game-center/water-sort',
+  },
+  {
     id: 'synth-racer',
     label: '合成器竞速',
     icon: '🏎️',

@@ -179,6 +179,72 @@ body {
   50% { opacity: 0.4; }
 }
 
+/* ============================
+   色彩排列（水排序）动效
+   ============================ */
+
+/* 飞行水滴：从源管口抛物线飞向目标管口（--dx/--dy 由内联样式注入） */
+@keyframes pourFly {
+  0% {
+    transform: translate(0, 0) scale(0.9);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translate(calc(var(--dx) * 0.5), calc(var(--dy) * 0.5 - 30px)) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(0.7);
+    opacity: 0.85;
+  }
+}
+
+/* 新水层下坠入管（带一点挤压回弹） */
+@keyframes layerDrop {
+  0% {
+    transform: translateY(-32px) scaleY(1.12);
+    opacity: 0.35;
+  }
+  70% {
+    transform: translateY(0) scaleY(0.94);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* 源管倾倒晃动（--tilt 控制方向） */
+@keyframes tiltPour {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(var(--tilt, 12deg)) translateY(-3px);
+  }
+}
+
+/* 颜色归位：满管弹跳 + 发光 */
+@keyframes settleBounce {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  35% {
+    transform: scale(1.1) translateY(-5px);
+    filter: brightness(1.5);
+  }
+  65% {
+    transform: scale(0.96);
+    filter: brightness(1.15);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
 .animate-fadeInUp {
   animation: fadeInUp 0.5s ease-out both;
 }
