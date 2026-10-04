@@ -22,6 +22,8 @@ import SynthRacerPage from './pages/SynthRacerPage';
 import WhoIsSpyPage from './pages/WhoIsSpyPage';
 import LianliankanPage from './pages/LianliankanPage';
 import WaterSortPage from './pages/WaterSortPage';
+import RhythmCodePage from './pages/RhythmCodePage';
+import BossMixerPage from './pages/BossMixerPage';
 import EtAlienPage from './pages/EtAlienPage';
 import PrismPlusPage from './pages/PrismPlusPage';
 import BassPage from './pages/BassPage';
@@ -51,6 +53,8 @@ export default function App() {
           <Route path="game-center/who-is-spy" element={<WhoIsSpyPage />} />
           <Route path="game-center/lianliankan" element={<LianliankanPage />} />
           <Route path="game-center/water-sort" element={<WaterSortPage />} />
+          <Route path="game-center/rhythm-code" element={<RhythmCodePage />} />
+          <Route path="game-center/boss-mixer" element={<BossMixerPage />} />
           <Route path="audio/music-handbook" element={<GameMusicHandbookPage />} />
           <Route path="audio/synth-lab" element={<SynthLabPage />} />
           <Route path="audio/synth-lab/crystal-prism" element={<CrystalPrismPage />} />

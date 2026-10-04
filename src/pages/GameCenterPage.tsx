@@ -40,14 +40,16 @@ const GAME_SLOTS: GameSlot[] = [
     label: '节奏编码',
     icon: '🎵',
     tagline: 'RHYTHM CODE',
-    desc: '把乐器语言(Instrument Language)语法编成节奏关卡，听音辨词、按拍输入的网页音乐游戏。',
+    desc: '把旋律当代码，按拍输入：音符 token 沿 4 轨落下，命中即奏出该音。内置小星星 / 小蜜蜂 / 欢乐颂 / 致爱丽丝谱面，3 难度 × 4 音色，连击与 FULL COMBO。',
+    href: '/game-center/rhythm-code',
   },
   {
     id: 'boss-mixer',
     label: 'Boss 混音战',
     icon: '🎚️',
     tagline: 'BOSS MIXER',
-    desc: '实时混音对抗玩法，用你在本站调出的合成器 patch 当武器挑战 Boss。',
+    desc: '实时混音对抗：Boss 逐拍发出目标声纹，用你的 4 通道合成器 + 低通 + 律动 LFO 实时贴频谱，匹配越准 Boss 掉血越快。3 个 Boss、静音领域、星级战绩。',
+    href: '/game-center/boss-mixer',
   },
 ];
 
@@ -57,7 +59,7 @@ export default function GameCenterPage() {
       {/* 头部 */}
       <div className="mb-8 text-center">
         <h1 className="text-2xl font-extrabold text-text-bright mb-1.5 flex items-center justify-center gap-2">
-          <span>🎮</span> 游戏中心
+          <span>🎮</span> 游戏大厅
         </h1>
         <p className="text-[13.5px] text-gray-500">
           Web 小游戏 · 把声音设计变成可玩的玩具
@@ -69,7 +71,7 @@ export default function GameCenterPage() {
         <div className="text-3xl mb-2">🚧</div>
         <div className="text-sm font-semibold text-gray-300 mb-1">建设中 · Coming Soon</div>
         <div className="text-xs text-gray-500 max-w-[640px] mx-auto">
-          游戏中心板块正在规划中。后续将在此接入一系列基于本站声音设计能力（CrystalPrism / SubBass / 乐器语言）的网页小游戏——可直接用你调出的合成器音色当玩法素材。
+          游戏大厅板块正在规划中。后续将在此接入一系列基于本站声音设计能力（CrystalPrism / SubBass / 乐器语言）的网页小游戏——可直接用你调出的合成器音色当玩法素材。
         </div>
       </div>
 

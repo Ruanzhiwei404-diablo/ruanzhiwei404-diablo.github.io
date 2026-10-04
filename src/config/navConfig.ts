@@ -12,7 +12,7 @@ export type NavItem = {
   children?: NavItem[]; // 子菜单
 };
 
-export const APP_VERSION = 'v2.3.6';
+export const APP_VERSION = 'v2.5.0';
 
 export const NAV_ITEMS: NavItem[] = [
   { id: 'home', label: '首页', path: '/' },
@@ -22,7 +22,7 @@ export const NAV_ITEMS: NavItem[] = [
   { id: 'audio', label: '音频设计', path: '/audio' },
   { id: 'music', label: '音乐图谱', path: '/music' },
   { id: 'game', label: '游戏百科', path: '/game' },
-  { id: 'game-center', label: '游戏中心', path: '/game-center' },
+  { id: 'game-center', label: '游戏大厅', path: '/game-center' },
   { id: 'about', label: '关于', path: '/about' },
 ];
 

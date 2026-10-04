@@ -638,7 +638,7 @@ export default function WaterSortPage() {
           to="/game-center"
           className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors"
         >
-          ← 返回游戏中心
+          ← 返回游戏大厅
         </Link>
       </div>
     </div>

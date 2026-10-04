@@ -166,7 +166,7 @@ export default function SynthRacerPage() {
     lastTRef.current = performance.now();
   }, [resetState]);
 
-  // 离开页面（含返回游戏中心）时彻底销毁引擎，避免声音残留
+  // 离开页面（含返回游戏大厅）时彻底销毁引擎，避免声音残留
   useEffect(() => () => {
     runningRef.current = false;
     cancelAnimationFrame(rafRef.current);
@@ -529,12 +529,12 @@ export default function SynthRacerPage() {
     <div className="relative w-full" style={{ height: 'calc(100vh - 73px)' }}>
       <canvas ref={canvasRef} className="block w-full h-full" />
 
-      {/* 返回游戏中心 */}
+      {/* 返回游戏大厅 */}
       <Link
         to="/game-center"
         className="absolute bottom-4 left-4 z-30 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-gray-200 text-xs font-semibold border border-white/15 backdrop-blur transition-all"
       >
-        ← 游戏中心
+        ← 游戏大厅
       </Link>
 
       {/* HUD */}
