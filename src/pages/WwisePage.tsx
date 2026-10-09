@@ -1,6 +1,72 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * 知识标签 → 官方文档跳转映射
+ * 仅收录经网络调研确认的 Audiokinetic 官方文档 URL（Help / SDK / 引擎集成）。
+ * 未在映射中的标签将渲染为普通徽章（不可点击），避免死链。
+ */
+const TAG_DOCS: Record<string, string> = {
+  // 入门基础
+  '安装': 'https://www.audiokinetic.com/zh/public-library/wwise_launcher/',
+  '配置': 'https://www.audiokinetic.com/zh/public-library/wwise_launcher/',
+  '入门': 'https://www.audiokinetic.com/fr/library/2025.1.3_9039/?id=building_actor_mixer_hierarchy_building_actor_mixer_hierarchy&source=Help',
+  '工作流': 'https://www.audiokinetic.com/fr/library/2025.1.3_9039/?id=building_actor_mixer_hierarchy_building_actor_mixer_hierarchy&source=Help',
+  '项目管理': 'https://www.audiokinetic.com/fr/library/2025.1.3_9039/?id=building_actor_mixer_hierarchy_building_actor_mixer_hierarchy&source=Help',
+  'UE': 'https://www.audiokinetic.com/library/2026.1.1_9196/?source=UE4&id=installation.html',
+  'Unity': 'https://www.audiokinetic.com/zh/public-library/2024.1.4_8780/?source=Unity&id=index.html',
+  '集成': 'https://www.audiokinetic.com/zh/public-library/2024.1.4_8780/?source=Unity&id=index.html',
+  'SoundBank': 'https://www.audiokinetic.com/fr/library/2025.1.4_9062/?id=defining_soundbank_settings_for_project&source=Help',
+  '内存': 'https://www.audiokinetic.com/fr/library/2025.1.4_9062/?id=defining_soundbank_settings_for_project&source=Help',
+  '优化': 'https://www.audiokinetic.com/fr/library/2025.1.4_9062/?id=defining_soundbank_settings_for_project&source=Help',
+
+  // 容器系统
+  '随机': 'https://www.audiokinetic.com/fr/library/2025.1.9_9197?id=creating_random_container&source=Help',
+  '变化': 'https://www.audiokinetic.com/fr/library/2025.1.9_9197?id=creating_random_container&source=Help',
+  '容器': 'https://www.audiokinetic.com/zh/library/2022.1.19_8584/?source=Help&id=grouping_sound_and_motion_objects_to_create_actor_mixer_hierarchy_types_of_containers',
+  '状态切换': 'https://www.audiokinetic.com/library/2025.1.8_9170?id=defining_contents_and_behavior_of_switch_containers&source=Help',
+  '条件': 'https://www.audiokinetic.com/library/2025.1.8_9170?id=defining_contents_and_behavior_of_switch_containers&source=Help',
+  '序列': 'https://www.audiokinetic.com/zh/library/2022.1.19_8584/?source=Help&id=grouping_sound_and_motion_objects_to_create_actor_mixer_hierarchy_types_of_containers',
+  '顺序播放': 'https://www.audiokinetic.com/zh/library/2022.1.19_8584/?source=Help&id=grouping_sound_and_motion_objects_to_create_actor_mixer_hierarchy_types_of_containers',
+  '混合': 'https://www.audiokinetic.com/zh/library/2022.1.19_8584/?source=Help&id=grouping_sound_and_motion_objects_to_create_actor_mixer_hierarchy_types_of_containers',
+  '过渡': 'https://www.audiokinetic.com/zh/library/2022.1.19_8584/?source=Help&id=grouping_sound_and_motion_objects_to_create_actor_mixer_hierarchy_types_of_containers',
+
+  // 空间音频
+  '3D': 'https://www.audiokinetic.com/fr/public-library/2024.1.5_8803/?id=working_with_3d_objects',
+  '定位': 'https://www.audiokinetic.com/fr/public-library/2024.1.5_8803/?id=working_with_3d_objects',
+  '空间': 'https://www.audiokinetic.com/fr/public-library/2024.1.5_8803/?id=working_with_3d_objects',
+  'Room': 'https://www.audiokinetic.com/en/public-library/2024.1.14_9084/?id=using_rooms_and_portals.html',
+  'Portal': 'https://www.audiokinetic.com/en/public-library/2024.1.14_9084/?id=using_rooms_and_portals.html',
+  '声学': 'https://www.audiokinetic.com/en/public-library/2024.1.14_9084/?id=using_rooms_and_portals.html',
+  '遮挡': 'https://www.audiokinetic.com/fr/library/2025.1.3_9037/?source=SDK&id=soundengine_obsocc.html',
+  '障碍物': 'https://www.audiokinetic.com/fr/library/2025.1.3_9037/?source=SDK&id=soundengine_obsocc.html',
+  '衰减': 'https://www.audiokinetic.com/fr/library/2022.1.19_8584/?id=defining_attenuation_curves_for_various_object_properties&source=Help',
+
+  // 互动音乐
+  '架构': 'https://www.audiokinetic.com/library/2023.1.19_8928?id=defining_contents_and_behaviors_of_music_switch_containers&source=Help',
+  '层级': 'https://www.audiokinetic.com/library/2023.1.19_8928?id=defining_contents_and_behaviors_of_music_switch_containers&source=Help',
+  'State': 'https://www.audiokinetic.com/library/2023.1.19_8928?id=defining_contents_and_behaviors_of_music_switch_containers&source=Help',
+  '切换': 'https://www.audiokinetic.com/library/2023.1.19_8928?id=defining_contents_and_behaviors_of_music_switch_containers&source=Help',
+  '淡入淡出': 'https://www.audiokinetic.com/library/2023.1.19_8928?id=defining_contents_and_behaviors_of_music_switch_containers&source=Help',
+  '节拍': 'https://www.audiokinetic.com/library/2023.1.19_8928?id=defining_contents_and_behaviors_of_music_switch_containers&source=Help',
+  '分层': 'https://www.audiokinetic.com/library/2023.1.19_8928?id=defining_contents_and_behaviors_of_music_switch_containers&source=Help',
+  '自适应': 'https://www.audiokinetic.com/library/2023.1.19_8928?id=defining_contents_and_behaviors_of_music_switch_containers&source=Help',
+  '紧张度': 'https://www.audiokinetic.com/library/2023.1.19_8928?id=defining_contents_and_behaviors_of_music_switch_containers&source=Help',
+
+  // 混音技术
+  'HDR': 'https://www.audiokinetic.com/en/library/2015.1_5363/?source=Help&id=using_hdr',
+  '响度': 'https://www.audiokinetic.com/en/library/2015.1_5363/?source=Help&id=using_hdr',
+  '动态': 'https://www.audiokinetic.com/en/library/2015.1_5363/?source=Help&id=using_hdr',
+  '距离': 'https://www.audiokinetic.com/fr/library/2022.1.19_8584/?id=defining_attenuation_curves_for_various_object_properties&source=Help',
+  '曲线': 'https://www.audiokinetic.com/fr/library/2022.1.19_8584/?id=defining_attenuation_curves_for_various_object_properties&source=Help',
+  '效果器': 'https://www.audiokinetic.com/en/library/2022.1.9_8365/?id=effects_tips_and_best_practices',
+  'EQ': 'https://www.audiokinetic.com/en/library/2022.1.9_8365/?id=effects_tips_and_best_practices',
+  '混响': 'https://www.audiokinetic.com/en/library/2022.1.9_8365/?id=effects_tips_and_best_practices',
+  '混音': 'https://www.audiokinetic.com/fr/public-library/2025.1.9_9197/?id=building_mixing_session&source=Help',
+  '会话': 'https://www.audiokinetic.com/fr/public-library/2025.1.9_9197/?id=building_mixing_session&source=Help',
+  '自动化': 'https://www.audiokinetic.com/fr/public-library/2025.1.9_9197/?id=building_mixing_session&source=Help',
+};
+
 const tabDefs = [
   { key: 'all', label: '全部', icon: 'M4 6h16M4 12h16M4 18h16' },
   { key: 'basics', label: '入门基础', color: '#06b6d4', icon: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z' },
@@ -250,6 +316,31 @@ const stats = [
   { label: '常见问答', value: '5' },
 ];
 
+/** 知识标签徽章：有官方文档映射则渲染为跳转链接，否则为普通徽章 */
+function TagBadge({ tag, color }: { tag: string; color: string }) {
+  const url = TAG_DOCS[tag];
+  const baseStyle = { borderColor: `${color}20`, background: `${color}08` };
+  if (url) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={`官方文档 · ${tag}`}
+        className="text-[10px] px-2 py-0.5 rounded border text-gray-300 hover:text-white transition-colors duration-200"
+        style={baseStyle}
+      >
+        {tag}
+      </a>
+    );
+  }
+  return (
+    <span className="text-[10px] px-2 py-0.5 rounded border text-gray-500" style={baseStyle}>
+      {tag}
+    </span>
+  );
+}
+
 function ModuleSection({ mod }: { mod: typeof modules[0] }) {
   return (
     <div id={mod.key} className="mb-8 scroll-mt-36">
@@ -283,13 +374,7 @@ function ModuleSection({ mod }: { mod: typeof modules[0] }) {
             <p className="text-xs text-gray-400 leading-relaxed mb-2.5">{card.desc}</p>
             <div className="flex flex-wrap gap-1.5">
               {card.tags.map((t, j) => (
-                <span
-                  key={j}
-                  className="text-[10px] px-2 py-0.5 rounded border text-gray-500"
-                  style={{ borderColor: `${mod.color}20`, background: `${mod.color}08` }}
-                >
-                  {t}
-                </span>
+                <TagBadge key={j} tag={t} color={mod.color} />
               ))}
             </div>
           </div>

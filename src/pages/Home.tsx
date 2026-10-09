@@ -13,13 +13,6 @@ export default function Home() {
     { i: '🔊', t: '高清无损导出', d: '支持 WAV、FLAC 等无损格式导出，保留每一个声音细节与层次', c: '#dc2626' },
   ];
 
-  const stats = [
-    { v: '10K+', l: '活跃用户' },
-    { v: '50K+', l: '生成曲目' },
-    { v: '99.9%', l: '音色还原度' },
-    { v: '24/7', l: '在线服务' },
-  ];
-
   const pts = [
     { l: '12%', t: '15%', c: '#a855f7', s: 3 }, { l: '78%', t: '8%', c: '#ec4899', s: 2 },
     { l: '55%', t: '72%', c: '#06b6d4', s: 2 }, { l: '88%', t: '45%', c: '#a855f7', s: 3 },
@@ -125,18 +118,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 数据统计 */}
-      <section className="px-10 pb-16 max-w-[1000px] mx-auto">
-        <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] rounded-2xl px-12 py-8 grid grid-cols-4">
-          {stats.map((s, i) => (
-            <div key={i} className={`text-center py-2 ${i < 3 ? 'border-r border-[rgba(255,255,255,0.06)]' : ''}`}>
-              <div className="text-[30px] font-black gradient-text-subtle mb-1">{s.v}</div>
-              <div className="text-xs text-gray-500 font-medium">{s.l}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* 核心能力 */}
       <section className="px-10 pb-20 max-w-[1100px] mx-auto">
         <div className="text-center mb-12">
@@ -170,19 +151,6 @@ export default function Home() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* CTA 底部 */}
-      <section className="px-10 pb-20 max-w-[900px] mx-auto">
-        <div className="relative overflow-hidden rounded-3xl p-14 text-center" style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(219,39,119,0.08))', border: '1px solid rgba(124,58,237,0.2)' }}>
-          <div className="absolute -top-16 -right-16 w-60 h-60 bg-[radial-gradient(circle,rgba(168,85,247,0.12),transparent_70%)] pointer-events-none" />
-          <div className="text-4xl mb-4">🎵</div>
-          <h2 className="text-[26px] font-extrabold text-white mb-3">准备好创造你的标志性声音了吗？</h2>
-          <p className="text-sm text-gray-400 max-w-[400px] mx-auto mb-7 leading-relaxed">免费注册，即刻开始 AI 声音创作之旅</p>
-          <Link to="/chat" className="btn-primary inline-flex items-center gap-2 no-underline">
-            🚀 开始免费使用
-          </Link>
         </div>
       </section>
 

@@ -3,7 +3,6 @@ import Layout from './components/Layout';
 import Home from './pages/Home';
 import ChatPage from './pages/ChatPage';
 import ResourcesPage from './pages/ResourcesPage';
-import ToolsPage from './pages/ToolsPage';
 import AboutPage from './pages/AboutPage';
 import AudioDesignPage from './pages/AudioDesignPage';
 import WwisePage from './pages/WwisePage';
@@ -41,7 +40,6 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="chat" element={<ChatPage />} />
           <Route path="resources" element={<ResourcesPage />} />
-          <Route path="tools" element={<ToolsPage />} />
           <Route path="audio" element={<AudioDesignPage />} />
           <Route path="audio/wwise" element={<WwisePage />} />
           <Route path="audio/music" element={<MusicGenresPage />} />
